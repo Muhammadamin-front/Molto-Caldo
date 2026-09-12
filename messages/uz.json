@@ -14,7 +14,8 @@
     "cart": "Savat",
     "search": "Qidirish",
     "menu": "Menyu",
-    "theme": "Mavzuni almashtirish"
+    "theme": "Mavzuni almashtirish",
+    "lookbook": "Kolleksiyalar"
   },
   "home": {
     "eyebrow": "Kuz–Qish kolleksiyasi",
@@ -118,5 +119,123 @@
     "from": "dan",
     "loading": "Yuklanmoqda...",
     "back": "Orqaga"
+  },
+  "lookbook": {
+    "label": "Lookbook",
+    "title": "Mavsum tanlovi",
+    "lead": "Har bir model — alohida hikoya. Suring yoki o'qlar bilan aylantiring.",
+    "cta": "Modelni ko'rish",
+    "pageTitle": "Kolleksiyalar",
+    "pageLead": "Papkani bosing — ichidagi modellar ochiladi.",
+    "pieces": "ta model",
+    "hover": "Ochish"
+  },
+  "atelier": {
+    "eyebrow": "Atelye",
+    "title": "Har bir chok orqasida odam turadi",
+    "text": "Kichik jamoa, katta e'tibor. Namuna tikishdan qadoqlashgacha bo'lgan yo'lni shu to'rt kishi olib boradi.",
+    "atelier": "Bosh tikuvchi",
+    "pattern": "Konstruktor",
+    "quality": "Sifat nazorati",
+    "logistics": "Yetkazib berish"
+  },
+  "reviews": {
+    "eyebrow": "Sharhlar",
+    "title": "Mijozlar nima deydi",
+    "lead": "Haqiqiy buyurtmalardan keyin qoldirilgan fikrlar."
+  },
+  "cta": {
+    "title": "Sovuq kutmaydi",
+    "text": "Mavsum kolleksiyasi cheklangan miqdorda tikilgan. O'lchamingiz bor ekan, kechiktirmang.",
+    "button": "Katalogni ochish"
+  },
+  "delivery": {
+    "title": "Yetkazib berish va xizmatlar",
+    "lead": "Qaysi tarif sizga mos kelishini tanlang.",
+    "standardLabel": "Oddiy",
+    "expressLabel": "Tezkor",
+    "tiers": {
+      "standard": [
+        {
+          "name": "Toshkent",
+          "price": 30000,
+          "priceNote": "1–2 kun ichida",
+          "description": "Shahar ichida kuryer orqali.",
+          "features": [
+            "Kuryer qo'ng'iroq qilib keladi",
+            "Kiyib ko'rish imkoni",
+            "1 500 000 so'mdan yuqori buyurtmaga bepul"
+          ]
+        },
+        {
+          "name": "Viloyatlar",
+          "price": 45000,
+          "priceNote": "2–4 kun ichida",
+          "description": "Pochta yoki transport xizmati.",
+          "features": [
+            "Barcha viloyatlarga",
+            "Kuzatuv raqami beriladi",
+            "2 000 000 so'mdan yuqori buyurtmaga bepul"
+          ],
+          "highlighted": true
+        },
+        {
+          "name": "Olib ketish",
+          "price": 0,
+          "priceNote": "O'sha kuni",
+          "description": "Ombordan o'zingiz olasiz.",
+          "features": [
+            "Toshkent, Olmachi ko'chasi",
+            "Joyida kiyib ko'rasiz",
+            "To'lov joyida"
+          ]
+        }
+      ],
+      "express": [
+        {
+          "name": "Toshkent",
+          "price": 60000,
+          "priceNote": "3 soat ichida",
+          "description": "Shoshilinch kuryer.",
+          "features": [
+            "Buyurtmadan 3 soat ichida",
+            "Soat 20:00 gacha",
+            "SMS orqali xabar"
+          ]
+        },
+        {
+          "name": "Viloyatlar",
+          "price": 120000,
+          "priceNote": "Ertasi kuni",
+          "description": "Aviapochta orqali.",
+          "features": [
+            "Keyingi ish kuni",
+            "Sug'urtalangan yuk",
+            "Kuzatuv raqami"
+          ],
+          "highlighted": true
+        },
+        {
+          "name": "Olib ketish",
+          "price": 0,
+          "priceNote": "1 soat ichida",
+          "description": "Tayyorlab qo'yamiz.",
+          "features": [
+            "Qo'ng'iroqdan 1 soat keyin",
+            "Nomingizga ajratiladi",
+            "24 soat saqlanadi"
+          ]
+        }
+      ]
+    }
+  },
+  "contact": {
+    "title": "Aloqa",
+    "lead": "Savolingiz bo'lsa yozing yoki qo'ng'iroq qiling — ish kunlari 9:00–19:00.",
+    "phone": "Telefon",
+    "telegram": "Telegram",
+    "email": "Email",
+    "address": "Manzil",
+    "addressValue": "Toshkent, Olmachi ko'chasi 25"
   }
 }

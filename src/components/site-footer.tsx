@@ -43,8 +43,8 @@ export async function SiteFooter() {
           </p>
           <ul className="mt-4 space-y-2.5 text-sm text-[var(--ink-soft)]">
             <li>
-              <Link href="/about" className="hover:text-[var(--ink)]">
-                {tn("about")}
+              <Link href="/lookbook" className="hover:text-[var(--ink)]">
+                {tn("lookbook")}
               </Link>
             </li>
             <li>
@@ -53,8 +53,8 @@ export async function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link href="/size-guide" className="hover:text-[var(--ink)]">
-                {t("sizeGuide")}
+              <Link href="/contact" className="hover:text-[var(--ink)]">
+                {tn("contact")}
               </Link>
             </li>
           </ul>

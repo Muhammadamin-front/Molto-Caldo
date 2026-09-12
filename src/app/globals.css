@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Qazib olingan komponentlar `dark:` variantidan foydalanadi. Tailwind 4 da
+   u sukut bo'yicha tizim sozlamasiga bog'langan — uni sayt mavzusiga
+   ulaymiz, aks holda toggle ularga ta'sir qilmaydi. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ------------------------------------------------------------------ theme
    Molto Caldo — "juda issiq". Palitra jun, teri va cho'g' ranglaridan
    olingan: iliq krem fon, quyuq siyoh matn va g'ishtsimon cho'g' urg'usi.

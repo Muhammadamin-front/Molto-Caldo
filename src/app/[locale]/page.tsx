@@ -1,10 +1,14 @@
-import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowRight, Package, RefreshCw, Scissors, Truck } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
-import { getCategories, getFeaturedProducts } from "@/lib/catalog";
+import { getCategories, getFeaturedProducts, getProducts } from "@/lib/catalog";
 import { ProductCard } from "@/components/product-card";
+import { Hero } from "@/components/sections/hero";
+import { LookbookCarousel } from "@/components/sections/lookbook-carousel";
+import { Atelier } from "@/components/sections/atelier";
+import { Reviews } from "@/components/sections/reviews";
+import { FinalCta } from "@/components/sections/final-cta";
 
 export default async function HomePage({
   params,
@@ -15,9 +19,12 @@ export default async function HomePage({
   setRequestLocale(locale);
 
   const t = await getTranslations("home");
-  const [featured, categories] = await Promise.all([
+  const tl = await getTranslations("lookbook");
+
+  const [featured, categories, all] = await Promise.all([
     getFeaturedProducts(locale, 4),
     getCategories(locale),
+    getProducts(locale),
   ]);
 
   const values = [
@@ -27,53 +34,23 @@ export default async function HomePage({
     { icon: RefreshCw, title: t("value4Title"), text: t("value4Text") },
   ];
 
+  // Karusel uchun: nom ikki qatorga bo'linadi, shunda tipografiya nafis chiqadi.
+  const lookbookItems = all.slice(0, 6).map((p) => {
+    const words = p.name.split(" ");
+    return {
+      tag: categories.find((c) => c.slug === p.categorySlug)?.name,
+      titleLine1: words[0],
+      titleLine2: words.slice(1).join(" "),
+      desc: p.description,
+      img: p.images[0] ?? "",
+      ctaText: tl("cta"),
+      ctaUrl: `/product/${p.slug}`,
+    };
+  });
+
   return (
     <>
-      {/* ------------------------------------------------------------ hero */}
-      <section className="mc-container grid items-center gap-10 py-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-20">
-        <div className="mc-rise">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-3 py-1.5 text-xs font-medium tracking-wide text-[var(--ink-soft)] uppercase">
-            <span className="size-1.5 rounded-full bg-[var(--accent)]" />
-            {t("eyebrow")}
-          </span>
-
-          <h1 className="mt-6 font-display text-[clamp(2.4rem,6vw,4.2rem)] leading-[1.04] font-semibold tracking-[-0.02em]">
-            {t("heroTitle")}
-          </h1>
-
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-[var(--ink-soft)]">
-            {t("heroLead")}
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/catalog"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-[var(--accent-ink)] transition-transform duration-300 hover:-translate-y-0.5"
-              style={{ transitionTimingFunction: "var(--ease)" }}
-            >
-              {t("shopNow")}
-              <ArrowRight size={16} />
-            </Link>
-            <Link
-              href="/about"
-              className="inline-flex items-center rounded-full border border-[var(--line-strong)] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--surface-2)]"
-            >
-              {t("ourStory")}
-            </Link>
-          </div>
-        </div>
-
-        <div className="relative aspect-4/5 overflow-hidden rounded-xl bg-[var(--surface-2)] lg:aspect-3/4">
-          <Image
-            src="/products/cappotto-milano-1.jpg"
-            alt={t("heroTitle")}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 45vw"
-            className="object-cover"
-          />
-        </div>
-      </section>
+      <Hero />
 
       {/* ------------------------------------------------------ categories */}
       <section className="mc-container py-10">
@@ -92,6 +69,22 @@ export default async function HomePage({
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* --------------------------------------------------------- lookbook */}
+      <section className="py-10">
+        <div className="mc-container mb-2 text-center reveal">
+          <p className="text-xs font-medium tracking-[0.28em] text-[var(--accent)] uppercase">
+            {tl("label")}
+          </p>
+          <h2 className="mt-4 font-display text-[clamp(1.8rem,4vw,2.8rem)] font-semibold tracking-tight">
+            {tl("title")}
+          </h2>
+          <p className="mx-auto mt-3 max-w-md text-sm text-[var(--ink-soft)]">
+            {tl("lead")}
+          </p>
+        </div>
+        <LookbookCarousel items={lookbookItems} sectionLabel={tl("label")} />
       </section>
 
       {/* -------------------------------------------------------- featured */}
@@ -129,14 +122,18 @@ export default async function HomePage({
         </div>
       </section>
 
+      <Atelier />
+
       {/* ---------------------------------------------------------- values */}
-      <section className="border-y border-[var(--line)] bg-[var(--surface-2)]">
+      <section className="border-b border-[var(--line)] bg-[var(--surface-2)]">
         <div className="mc-container py-14">
           <h2 className="font-display text-[clamp(1.7rem,3.5vw,2.5rem)] font-semibold tracking-tight reveal">
             {t("valuesTitle")}
           </h2>
-
-          <div className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+          <div
+            className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
+            data-stagger
+          >
             {values.map((v) => (
               <div key={v.title}>
                 <v.icon size={22} className="text-[var(--accent)]" />
@@ -151,6 +148,9 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      <Reviews locale={locale} />
+      <FinalCta />
     </>
   );
 }

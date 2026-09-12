@@ -14,7 +14,8 @@
     "cart": "Cart",
     "search": "Search",
     "menu": "Menu",
-    "theme": "Toggle theme"
+    "theme": "Toggle theme",
+    "lookbook": "Collections"
   },
   "home": {
     "eyebrow": "Autumn–Winter collection",
@@ -118,5 +119,123 @@
     "from": "from",
     "loading": "Loading...",
     "back": "Back"
+  },
+  "lookbook": {
+    "label": "Lookbook",
+    "title": "The season's picks",
+    "lead": "Every model tells its own story. Swipe or use the arrows.",
+    "cta": "View the model",
+    "pageTitle": "Collections",
+    "pageLead": "Open a folder to reveal the pieces inside.",
+    "pieces": "pieces",
+    "hover": "Open"
+  },
+  "atelier": {
+    "eyebrow": "Atelier",
+    "title": "There is a person behind every seam",
+    "text": "A small team and close attention. These four carry a piece from first sample to the packed box.",
+    "atelier": "Head tailor",
+    "pattern": "Pattern maker",
+    "quality": "Quality control",
+    "logistics": "Delivery"
+  },
+  "reviews": {
+    "eyebrow": "Reviews",
+    "title": "What customers say",
+    "lead": "Notes left after real orders."
+  },
+  "cta": {
+    "title": "The cold will not wait",
+    "text": "The season's collection is cut in a limited run. While your size is there, do not put it off.",
+    "button": "Open the catalog"
+  },
+  "delivery": {
+    "title": "Delivery and services",
+    "lead": "Pick the tier that suits you.",
+    "standardLabel": "Standard",
+    "expressLabel": "Express",
+    "tiers": {
+      "standard": [
+        {
+          "name": "Tashkent",
+          "price": 30000,
+          "priceNote": "In 1–2 days",
+          "description": "By courier within the city.",
+          "features": [
+            "The courier calls before arriving",
+            "You may try the piece on",
+            "Free over 1,500,000 UZS"
+          ]
+        },
+        {
+          "name": "Regions",
+          "price": 45000,
+          "priceNote": "In 2–4 days",
+          "description": "Post or transport service.",
+          "features": [
+            "To every region",
+            "A tracking number is issued",
+            "Free over 2,000,000 UZS"
+          ],
+          "highlighted": true
+        },
+        {
+          "name": "Pickup",
+          "price": 0,
+          "priceNote": "Same day",
+          "description": "Collect from the warehouse.",
+          "features": [
+            "Tashkent, Olmachi street",
+            "Fitting on the spot",
+            "Pay on collection"
+          ]
+        }
+      ],
+      "express": [
+        {
+          "name": "Tashkent",
+          "price": 60000,
+          "priceNote": "Within 3 hours",
+          "description": "Priority courier.",
+          "features": [
+            "Within 3 hours of the order",
+            "Until 20:00",
+            "Notified by SMS"
+          ]
+        },
+        {
+          "name": "Regions",
+          "price": 120000,
+          "priceNote": "Next day",
+          "description": "By air mail.",
+          "features": [
+            "The next working day",
+            "The parcel is insured",
+            "Tracking number"
+          ],
+          "highlighted": true
+        },
+        {
+          "name": "Pickup",
+          "price": 0,
+          "priceNote": "Within 1 hour",
+          "description": "We prepare it ahead.",
+          "features": [
+            "An hour after your call",
+            "Held under your name",
+            "Kept for 24 hours"
+          ]
+        }
+      ]
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "lead": "Write or call — weekdays from 9:00 to 19:00.",
+    "phone": "Phone",
+    "telegram": "Telegram",
+    "email": "Email",
+    "address": "Address",
+    "addressValue": "Tashkent, Olmachi street 25"
   }
 }

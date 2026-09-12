@@ -13,9 +13,12 @@
     "db:seed": "tsx src/db/seed.ts"
   },
   "dependencies": {
+    "@number-flow/react": "^0.6.2",
+    "@radix-ui/react-avatar": "^1.2.6",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
+    "framer-motion": "^13.2.0",
     "jose": "^6.2.12",
     "lucide-react": "^1.45.0",
     "motion": "^13.2.0",
