@@ -45,7 +45,11 @@
     "sortNew": "Yangi kelganlar",
     "sortPriceAsc": "Narx: arzondan",
     "sortPriceDesc": "Narx: qimmatdan",
-    "results": "{count} ta mahsulot"
+    "results": "{count} ta mahsulot",
+    "searchPlaceholder": "Palto, kurtka, sviter...",
+    "searchLabel": "Mahsulotlarni qidirish",
+    "searchClear": "Qidiruvni tozalash",
+    "searchEmpty": "«{query}» bo'yicha hech narsa topilmadi. Boshqa so'z bilan urinib ko'ring."
   },
   "product": {
     "size": "O'lcham",
@@ -60,7 +64,8 @@
     "description": "Tavsif",
     "inStock": "Sotuvda bor",
     "lowStock": "Oxirgi {count} ta qoldi",
-    "related": "O'xshash modellar"
+    "related": "O'xshash modellar",
+    "imageAlt": "{index}-surat"
   },
   "cart": {
     "title": "Savat",

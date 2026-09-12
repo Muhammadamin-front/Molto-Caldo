@@ -9,6 +9,8 @@ import type { Locale } from "@/i18n/routing";
 import { useCart } from "@/components/cart-provider";
 import { cn, formatPrice } from "@/lib/utils";
 
+const PLACEHOLDER = "/products/placeholder.jpg";
+
 export function ProductDetail({
   product,
   locale,
@@ -35,6 +37,9 @@ export function ProductDetail({
   const [colorHex, setColorHex] = useState(colors[0]?.hex ?? "");
   const [size, setSize] = useState<string | null>(null);
   const [justAdded, setJustAdded] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const images = product.images.length > 0 ? product.images : [PLACEHOLDER];
 
   // Tanlangan rangdagi o'lchamlar — zaxirasi yo'qlari o'chirilgan holda.
   const sizesForColor = useMemo(
@@ -52,7 +57,7 @@ export function ProductDetail({
       variantId: selected.id,
       productSlug: product.slug,
       name: product.name,
-      image: product.images[0] ?? "",
+      image: images[imageIndex] ?? "",
       size: selected.size,
       colorName: selected.colorName,
       colorHex: selected.colorHex,
@@ -66,15 +71,46 @@ export function ProductDetail({
 
   return (
     <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
-      <div className="relative aspect-3/4 overflow-hidden rounded-xl bg-[var(--surface-2)]">
-        <Image
-          src={product.images[0] ?? "/products/placeholder.jpg"}
-          alt={product.name}
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover"
-        />
+      <div>
+        <div className="relative aspect-3/4 overflow-hidden rounded-xl bg-[var(--surface-2)]">
+          <Image
+            src={images[imageIndex] ?? "/products/placeholder.jpg"}
+            alt={product.name}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover"
+          />
+        </div>
+
+        {/* Bitta suratli mahsulotda lenta ko'rsatilmaydi. */}
+        {images.length > 1 && (
+          <div className="mt-3 grid grid-cols-4 gap-3">
+            {images.map((src, index) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setImageIndex(index)}
+                aria-label={t("imageAlt", { index: index + 1 })}
+                aria-pressed={index === imageIndex}
+                className={cn(
+                  "relative aspect-3/4 overflow-hidden rounded-lg bg-[var(--surface-2)] transition-all",
+                  index === imageIndex
+                    ? "ring-2 ring-[var(--ink)] ring-offset-2 ring-offset-[var(--bg)]"
+                    : "ring-1 ring-[var(--line)] hover:ring-[var(--ink-mute)]",
+                )}
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 1024px) 25vw, 12vw"
+                  className="object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div>

@@ -45,7 +45,11 @@
     "sortNew": "Новинки",
     "sortPriceAsc": "Цена: по возрастанию",
     "sortPriceDesc": "Цена: по убыванию",
-    "results": "{count} товаров"
+    "results": "{count} товаров",
+    "searchPlaceholder": "Пальто, куртка, свитер...",
+    "searchLabel": "Поиск товаров",
+    "searchClear": "Очистить поиск",
+    "searchEmpty": "По запросу «{query}» ничего не найдено. Попробуйте другое слово."
   },
   "product": {
     "size": "Размер",
@@ -60,7 +64,8 @@
     "description": "Описание",
     "inStock": "В наличии",
     "lowStock": "Осталось {count} шт.",
-    "related": "Похожие модели"
+    "related": "Похожие модели",
+    "imageAlt": "Фото {index}"
   },
   "cart": {
     "title": "Корзина",

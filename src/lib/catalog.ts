@@ -1,5 +1,5 @@
 import "server-only";
-import { eq, asc, desc, and, inArray } from "drizzle-orm";
+import { eq, asc, desc, and, or, ilike, inArray } from "drizzle-orm";
 import type { Locale } from "@/i18n/routing";
 import { sampleCategories, sampleProducts } from "@/db/sample-data";
 
@@ -40,6 +40,29 @@ const hasDatabase = Boolean(process.env.DATABASE_URL);
 
 function suffix(locale: Locale) {
   return locale === "ru" ? "Ru" : locale === "en" ? "En" : "Uz";
+}
+
+const MAX_QUERY = 80;
+
+/**
+ * Qidiruv matnini tayyorlaydi. `%` va `_` — SQL `ilike` uchun maxsus
+ * belgilar, xaridor ularni yozsa oddiy harf sifatida qaralishi kerak.
+ */
+function normalizeQuery(input: string | undefined) {
+  const trimmed = (input ?? "").trim().slice(0, MAX_QUERY);
+  return trimmed.length < 2 ? "" : trimmed;
+}
+
+function escapeLike(value: string) {
+  return value.replace(/[\\%_]/g, (ch) => `\\${ch}`);
+}
+
+function matchesQuery(product: Product, query: string) {
+  const needle = query.toLocaleLowerCase();
+  return (
+    product.name.toLocaleLowerCase().includes(needle) ||
+    product.description.toLocaleLowerCase().includes(needle)
+  );
 }
 
 /* ---------------------------------------------- namuna ma'lumot yo'nalishi */
@@ -103,15 +126,22 @@ export async function getCategories(locale: Locale): Promise<Category[]> {
 
 export async function getProducts(
   locale: Locale,
-  options: { category?: string; sort?: SortKey; limit?: number } = {},
+  options: {
+    category?: string;
+    sort?: SortKey;
+    limit?: number;
+    query?: string;
+  } = {},
 ): Promise<Product[]> {
   const { category, sort = "new", limit } = options;
+  const query = normalizeQuery(options.query);
 
   if (!hasDatabase) {
     let list = sampleProducts
       .filter((p) => p.isActive)
       .filter((p) => !category || p.categorySlug === category)
-      .map((p) => sampleToProduct(p, locale));
+      .map((p) => sampleToProduct(p, locale))
+      .filter((p) => !query || matchesQuery(p, query));
     list = sortProducts(list, sort);
     return typeof limit === "number" ? list.slice(0, limit) : list;
   }
@@ -119,20 +149,43 @@ export async function getProducts(
   const { db, schema } = await import("@/db");
   const s = suffix(locale);
 
+  // Qidiruv joriy tildagi ustunlar bo'yicha ketadi — xaridor ko'rgan matn
+  // bilan bir xil bo'lishi uchun.
+  const nameColumn =
+    locale === "ru"
+      ? schema.products.nameRu
+      : locale === "en"
+        ? schema.products.nameEn
+        : schema.products.nameUz;
+  const descriptionColumn =
+    locale === "ru"
+      ? schema.products.descriptionRu
+      : locale === "en"
+        ? schema.products.descriptionEn
+        : schema.products.descriptionUz;
+
+  const pattern = `%${escapeLike(query)}%`;
+
   const rows = await db.query.products.findMany({
-    where: category
-      ? and(
-          eq(schema.products.isActive, true),
-          eq(
+    where: and(
+      eq(schema.products.isActive, true),
+      category
+        ? eq(
             schema.products.categoryId,
             db
               .select({ id: schema.categories.id })
               .from(schema.categories)
               .where(eq(schema.categories.slug, category))
               .limit(1),
-          ),
-        )
-      : eq(schema.products.isActive, true),
+          )
+        : undefined,
+      query
+        ? or(
+            ilike(nameColumn, pattern),
+            ilike(descriptionColumn, pattern),
+          )
+        : undefined,
+    ),
     with: { variants: true, category: true },
     orderBy:
       sort === "price-asc"

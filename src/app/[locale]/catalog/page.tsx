@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getCategories, getProducts, type SortKey } from "@/lib/catalog";
 import { ProductCard } from "@/components/product-card";
+import { CatalogSearch } from "@/components/catalog-search";
 import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
@@ -27,19 +28,20 @@ export default async function CatalogPage({
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: Promise<{ category?: string; sort?: string }>;
+  searchParams: Promise<{ category?: string; sort?: string; q?: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const { category, sort } = await searchParams;
+  const { category, sort, q } = await searchParams;
   const sortKey: SortKey =
     sort === "price-asc" || sort === "price-desc" ? sort : "new";
+  const query = (q ?? "").trim();
 
   const t = await getTranslations("catalog");
   const [categories, products] = await Promise.all([
     getCategories(locale),
-    getProducts(locale, { category, sort: sortKey }),
+    getProducts(locale, { category, sort: sortKey, query }),
   ]);
 
   function href(next: { category?: string; sort?: SortKey }) {
@@ -48,6 +50,7 @@ export default async function CatalogPage({
     const s = "sort" in next ? next.sort : sortKey;
     if (c) p.set("category", c);
     if (s && s !== "new") p.set("sort", s);
+    if (query) p.set("q", query);
     const q = p.toString();
     return q ? `/catalog?${q}` : "/catalog";
   }
@@ -58,7 +61,11 @@ export default async function CatalogPage({
         {t("title")}
       </h1>
 
-      <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--line)] pb-5">
+      <div className="mt-7">
+        <CatalogSearch query={query} category={category} sort={sortKey} />
+      </div>
+
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--line)] pb-5">
         <nav className="flex flex-wrap gap-2">
           <Link
             href={href({ category: undefined })}
@@ -111,7 +118,9 @@ export default async function CatalogPage({
       </div>
 
       {products.length === 0 ? (
-        <p className="py-20 text-center text-[var(--ink-soft)]">{t("empty")}</p>
+        <p className="py-20 text-center text-[var(--ink-soft)]">
+          {query ? t("searchEmpty", { query }) : t("empty")}
+        </p>
       ) : (
         <div
           className="mt-9 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4"
