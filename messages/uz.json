@@ -120,7 +120,8 @@
     "rights": "Barcha huquqlar himoyalangan",
     "sizeGuide": "O'lchamlar jadvali",
     "returns": "Qaytarish va almashtirish",
-    "payment": "To'lov usullari"
+    "payment": "To'lov usullari",
+    "admin": "Boshqaruv paneli"
   },
   "common": {
     "currency": "so'm",

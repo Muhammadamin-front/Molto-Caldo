@@ -11,7 +11,14 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       // Savat va buyurtma sahifalarida indekslanadigan narsa yo'q; ular har
       // bir xaridor uchun boshqacha ko'rinadi.
-      disallow: ["/api/", "/cart", "/checkout", "/*/cart", "/*/checkout"],
+      disallow: [
+        "/api/",
+        "/admin",
+        "/cart",
+        "/checkout",
+        "/*/cart",
+        "/*/checkout",
+      ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

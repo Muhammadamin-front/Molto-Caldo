@@ -30,13 +30,29 @@ export function IntroCurtain({
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    const timer = window.setTimeout(() => {
+    const finish = () => {
       setDone(true);
       document.body.style.overflow = previous;
-    }, 2400);
+    };
+
+    const timer = window.setTimeout(finish, 2400);
+
+    // Kutib turishni istamagan xaridor bosib yoki tugma bilan o'tkazib
+    // yuborishi mumkin — aks holda har ochilishda 2.4 soniya kutiladi.
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === "Enter" || event.key === " ") {
+        finish();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", finish);
+    window.addEventListener("wheel", finish, { passive: true });
 
     return () => {
       window.clearTimeout(timer);
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", finish);
+      window.removeEventListener("wheel", finish);
       document.body.style.overflow = previous;
     };
   }, []);

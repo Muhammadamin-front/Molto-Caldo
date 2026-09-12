@@ -120,7 +120,8 @@
     "rights": "All rights reserved",
     "sizeGuide": "Size guide",
     "returns": "Returns and exchange",
-    "payment": "Payment methods"
+    "payment": "Payment methods",
+    "admin": "Admin panel"
   },
   "common": {
     "currency": "UZS",

@@ -1,4 +1,6 @@
 import { getTranslations } from "next-intl/server";
+import NextLink from "next/link";
+import { Lock } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { CONTACT } from "@/lib/constants";
 
@@ -94,7 +96,18 @@ export async function SiteFooter() {
         <p>
           &copy; {year} Molto Caldo — {t("rights")}
         </p>
-        <p>Click · Payme · {t("payment")}</p>
+        <div className="flex items-center gap-4">
+          <p>Click · Payme · {t("payment")}</p>
+          {/* Boshqaruv paneli tarjima qilinmagan va `[locale]` dan tashqarida
+              turadi, shuning uchun oddiy `<a>` — next-intl `Link` emas. */}
+          <NextLink
+            href="/admin"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] px-3 py-1.5 font-medium transition-colors hover:border-[var(--line-strong)] hover:text-[var(--ink)]"
+          >
+            <Lock size={11} />
+            {t("admin")}
+          </NextLink>
+        </div>
       </div>
     </footer>
   );
