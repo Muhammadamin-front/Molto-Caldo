@@ -47,6 +47,9 @@ npm run db:seed
 src/
   app/[locale]/          sahifalar (bosh, katalog, mahsulot, savat, buyurtma)
   app/api/orders/        buyurtma qabul qilish
+  app/api/variants/      savat uchun joriy narx va zaxira
+  app/sitemap.ts         uchta til uchun sitemap + hreflang
+  app/robots.ts          savat/buyurtma/API indekslanmaydi
   components/            UI komponentlar (savat, header, footer, kartochka)
   db/                    Drizzle sxemasi, namuna ma'lumot, seed
   i18n/                  next-intl yo'nalishlari
@@ -58,15 +61,32 @@ messages/                uz.json / ru.json / en.json
 
 - **Narxlar tiyinda saqlanadi** (`1 so'm = 100 tiyin`) — kasr sonlardagi
   yaxlitlash xatolarini oldini olish uchun.
-- **Buyurtma jami har doim serverda qayta hisoblanadi** — klient yuborgan
-  summaga ishonilmaydi.
+- **Klient faqat `variantId` va `quantity` yuboradi.** Nom, narx va zaxira
+  serverda katalogdan olinadi — brauzerdan kelgan summa umuman o'qilmaydi.
+- **Zaxira buyurtma tranzaksiyasi ichida kamayadi**, `stock >= quantity`
+  sharti bilan. Shart bajarilmasa tranzaksiya bekor bo'ladi va xaridorga
+  nima tugaganini aytadi — oxirgi dona ikki kishiga sotilmaydi.
+- **Savat ochilganda `/api/variants` dan yangilanadi.** `localStorage` dagi
+  savat haftalab turishi mumkin; narx yoki zaxira o'zgargan bo'lsa savat
+  to'g'rilanadi va xaridor ogohlantiriladi.
 - **Buyurtma qatorlari denormallashtirilgan** — mahsulot keyin o'zgartirilsa
   ham eski buyurtma o'zgarmaydi.
-- Savat `localStorage` da, brauzerda saqlanadi.
+- **`global-not-found.tsx`** — ildiz layout `[locale]` ichida bo'lgani uchun
+  Next hech qaysi yo'nalishga tushmagan manzilni layout bilan ko'rsata
+  olmaydi (`experimental.globalNotFound`). Mahsulot topilmaganda esa
+  tarjima qilingan `[locale]/not-found.tsx` ishlaydi.
 
 ## Hali qilinmagan
 
-- Click / Payme integratsiyasi — merchant kalitlari kerak (`.env.example` ga qarang)
-- Admin panel (buyurtmalar ro'yxati, mahsulot qo'shish)
-- Haqiqiy mahsulot fotosuratlari — hozir `public/products/` da vaqtinchalik
-  mato namunalari turibdi
+- **Admin panel** (buyurtmalar ro'yxati, holatni o'zgartirish). `admin_users`
+  jadvali, `bcryptjs`, `jose` va `AUTH_SECRET` tayyor — sahifaning o'zi yo'q.
+  Hozir yangi buyurtma faqat bazada turadi, hech kimga xabar ketmaydi.
+- **Click / Payme integratsiyasi** — merchant kalitlari kerak
+  (`.env.example` ga qarang). Hozir har bir buyurtma amalda naqd to'lov.
+- **Telegram xabarnomasi** — bot tokeni kerak.
+- **O'lchamlar jadvali** — `product.sizeGuide` kaliti va `SIZES` ro'yxati
+  turibdi, lekin haqiqiy o'lcham (ko'krak, yeng, uzunlik) ma'lumoti yo'q.
+  O'ylab topilgan santimetrlar xaridorga noto'g'ri o'lcham sotib qo'yadi,
+  shuning uchun jadval brend o'lchovlari berilgandan keyin qo'shiladi.
+- **Har bir mahsulotga bir nechta fotosurat** — mahsulot sahifasidagi lenta
+  tayyor, hozir har bir modelda bittadan surat bor.

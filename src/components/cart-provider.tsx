@@ -48,7 +48,7 @@ type Action =
   | { type: "setQuantity"; variantId: number; quantity: number }
   | { type: "clear" }
   | { type: "hydrate"; lines: CartLine[] }
-  | { type: "reconcile"; variants: ServerVariant[] }
+  | { type: "reconcile"; variants: ServerVariant[]; requestedIds: number[] }
   | { type: "dismissAdjusted" };
 
 const STORAGE_KEY = "molto_caldo_cart_v1";
@@ -60,14 +60,19 @@ const STORAGE_KEY = "molto_caldo_cart_v1";
 function parseStored(raw: string): CartLine[] {
   const data: unknown = JSON.parse(raw);
   if (!Array.isArray(data)) return [];
-  return data.filter(
-    (l): l is CartLine =>
-      typeof l === "object" &&
-      l !== null &&
-      Number.isInteger((l as CartLine).variantId) &&
-      Number.isInteger((l as CartLine).quantity) &&
-      (l as CartLine).quantity > 0,
-  );
+  return data.filter((l): l is CartLine => {
+    if (typeof l !== "object" || l === null) return false;
+    const line = l as CartLine;
+    return (
+      Number.isInteger(line.variantId) &&
+      Number.isInteger(line.quantity) &&
+      line.quantity > 0 &&
+      Number.isFinite(line.unitPrice) &&
+      Number.isFinite(line.maxStock) &&
+      typeof line.name === "string" &&
+      typeof line.productSlug === "string"
+    );
+  });
 }
 
 function reducer(state: State, action: Action): State {
@@ -123,10 +128,18 @@ function reducer(state: State, action: Action): State {
       // Savat brauzerda uzoq turadi: narx ko'tarilgan, mahsulot o'chirilgan
       // yoki zaxira tugagan bo'lishi mumkin. Server aytganini olamiz.
       const byId = new Map(action.variants.map((v) => [v.variantId, v]));
+      const requested = new Set(action.requestedIds);
       let adjusted = false;
       const lines: CartLine[] = [];
 
       for (const line of state.lines) {
+        // So'ralmagan qator haqida server hech nima aytmadi — uni o'chirish
+        // savatni sababsiz bo'shatib qo'yardi.
+        if (!requested.has(line.variantId)) {
+          lines.push(line);
+          continue;
+        }
+
         const fresh = byId.get(line.variantId);
         if (!fresh || fresh.stock < 1) {
           adjusted = true;
@@ -196,12 +209,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (stored.length === 0) return;
 
     const controller = new AbortController();
-    void fetchVariants(
-      stored.map((l) => l.variantId),
-      locale,
-      controller.signal,
-    ).then((variants) => {
-      if (variants) dispatch({ type: "reconcile", variants });
+    const ids = stored.map((l) => l.variantId);
+    void fetchVariants(ids, locale, controller.signal).then((variants) => {
+      if (variants) {
+        dispatch({ type: "reconcile", variants, requestedIds: ids });
+      }
     });
 
     return () => controller.abort();
@@ -229,11 +241,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       dismissAdjusted: () => dispatch({ type: "dismissAdjusted" }),
       refresh: () => {
         if (lines.length === 0) return;
-        void fetchVariants(
-          lines.map((l) => l.variantId),
-          locale,
-        ).then((variants) => {
-          if (variants) dispatch({ type: "reconcile", variants });
+        const ids = lines.map((l) => l.variantId);
+        void fetchVariants(ids, locale).then((variants) => {
+          if (variants) {
+            dispatch({ type: "reconcile", variants, requestedIds: ids });
+          }
         });
       },
     };
@@ -242,20 +254,33 @@ export function CartProvider({ children }: { children: ReactNode }) {
   return <CartContext value={value}>{children}</CartContext>;
 }
 
+/** `/api/variants` bir so'rovda shuncha id qabul qiladi. */
+const BATCH = 50;
+
 /** Xato bo'lsa `null` — savat eski narx bilan qolsa ham sahifa ishlaydi. */
 async function fetchVariants(
   ids: number[],
   locale: string,
   signal?: AbortSignal,
 ): Promise<ServerVariant[] | null> {
+  const batches: number[][] = [];
+  for (let i = 0; i < ids.length; i += BATCH) {
+    batches.push(ids.slice(i, i + BATCH));
+  }
+
   try {
-    const response = await fetch(
-      `/api/variants?ids=${ids.join(",")}&locale=${locale}`,
-      { signal },
+    const responses = await Promise.all(
+      batches.map(async (batch) => {
+        const response = await fetch(
+          `/api/variants?ids=${batch.join(",")}&locale=${locale}`,
+          { signal },
+        );
+        if (!response.ok) throw new Error(`status ${response.status}`);
+        const data: { variants?: ServerVariant[] } = await response.json();
+        return data.variants ?? [];
+      }),
     );
-    if (!response.ok) return null;
-    const data: { variants?: ServerVariant[] } = await response.json();
-    return data.variants ?? null;
+    return responses.flat();
   } catch {
     return null;
   }
