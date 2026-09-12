@@ -22,7 +22,7 @@ export function CheckoutForm() {
   const tc = useTranslations("cart");
   const locale = useLocale() as Locale;
   const router = useRouter();
-  const { lines, subtotal, clear } = useCart();
+  const { lines, subtotal, clear, adjusted, refresh } = useCart();
 
   const [method, setMethod] = useState<Method>("cash");
   const [submitting, setSubmitting] = useState(false);
@@ -77,23 +77,36 @@ export function CheckoutForm() {
           ...values,
           paymentMethod: method,
           locale,
+          // Faqat "nima" va "nechta" — nom va narxni server katalogdan oladi.
           lines: lines.map((l) => ({
             variantId: l.variantId,
-            productSlug: l.productSlug,
-            name: l.name,
-            size: l.size,
-            colorName: l.colorName,
-            unitPrice: l.unitPrice,
             quantity: l.quantity,
           })),
         }),
       });
 
-      if (!response.ok) throw new Error(`status ${response.status}`);
+      if (!response.ok) {
+        const body: { error?: string } = await response
+          .json()
+          .catch(() => ({}));
 
-      const result: { orderNumber: string } = await response.json();
+        // Zaxira tugagan yoki mahsulot olib tashlangan: savatni serverdan
+        // yangilaymiz, xaridor nima o'zgarganini ko'radi.
+        if (body.error === "out_of_stock" || body.error === "unknown_variant") {
+          refresh();
+          setFormError(t("stockChanged"));
+          setSubmitting(false);
+          return;
+        }
+
+        throw new Error(body.error ?? `status ${response.status}`);
+      }
+
+      const result: { orderNumber: string; persisted: boolean } =
+        await response.json();
       clear();
-      router.push(`/checkout/success?order=${result.orderNumber}`);
+      const demo = result.persisted ? "" : "&demo=1";
+      router.push(`/checkout/success?order=${result.orderNumber}${demo}`);
     } catch (error) {
       console.error("[checkout] submit failed", error);
       setFormError(t("error"));
@@ -110,6 +123,12 @@ export function CheckoutForm() {
       noValidate
       className="mt-9 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-14"
     >
+      {adjusted && (
+        <p className="rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-4 py-3 text-sm text-[var(--ink-soft)] lg:col-span-2">
+          {tc("adjusted")}
+        </p>
+      )}
+
       <div className="space-y-9">
         <fieldset>
           <legend className="font-display text-lg font-medium">

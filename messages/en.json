@@ -76,7 +76,8 @@
     "total": "Total",
     "checkout": "Checkout",
     "continue": "Continue shopping",
-    "freeShippingNote": "Free delivery on orders over {amount}."
+    "freeShippingNote": "Free delivery on orders over {amount}.",
+    "adjusted": "Cart updated: the price or availability of some items has changed."
   },
   "checkout": {
     "title": "Checkout",
@@ -97,12 +98,14 @@
     "orderSummary": "Order summary",
     "required": "This field is required",
     "invalidPhone": "Enter a valid phone number",
-    "error": "Could not place the order. Please try again."
+    "error": "Could not place the order. Please try again.",
+    "stockChanged": "Some items are out of stock. Your cart has been updated — please review it."
   },
   "success": {
     "title": "Order received",
     "text": "Order number: {number}. Our manager will contact you shortly.",
-    "home": "Back to home"
+    "home": "Back to home",
+    "demoNotice": "Demo mode: no database is connected, so this order was not saved. Please call us instead."
   },
   "footer": {
     "tagline": "Warm, Italian-spirited outerwear.",

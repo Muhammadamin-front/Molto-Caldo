@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
-import { orderSchema, createOrder } from "@/lib/orders";
+import { orderSchema, createOrder, OrderError } from "@/lib/orders";
+
+/** Qaysi sabab qanday HTTP holat kodiga mos keladi. */
+const STATUS = {
+  duplicate_line: 422,
+  unknown_variant: 422,
+  out_of_stock: 409,
+} as const;
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -21,6 +28,12 @@ export async function POST(request: Request) {
     const result = await createOrder(parsed.data);
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
+    if (error instanceof OrderError) {
+      return NextResponse.json(
+        { error: error.code, variantIds: error.variantIds },
+        { status: STATUS[error.code] },
+      );
+    }
     console.error("[orders] create failed", error);
     return NextResponse.json({ error: "server_error" }, { status: 500 });
   }

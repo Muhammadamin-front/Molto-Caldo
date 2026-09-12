@@ -12,7 +12,7 @@ import { DELIVERY_FEE, FREE_DELIVERY_THRESHOLD } from "@/lib/constants";
 export function CartView() {
   const t = useTranslations("cart");
   const locale = useLocale() as Locale;
-  const { lines, subtotal, setQuantity, remove } = useCart();
+  const { lines, subtotal, setQuantity, remove, adjusted } = useCart();
 
   if (lines.length === 0) {
     return (
@@ -33,6 +33,12 @@ export function CartView() {
 
   return (
     <div className="mt-9 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-14">
+      {adjusted && (
+        <p className="rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-4 py-3 text-sm text-[var(--ink-soft)] lg:col-span-2">
+          {t("adjusted")}
+        </p>
+      )}
+
       <ul className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
         {lines.map((line) => (
           <li key={line.variantId} className="flex gap-4 py-5">

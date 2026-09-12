@@ -11,11 +11,11 @@ export default async function SuccessPage({
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: Promise<{ order?: string }>;
+  searchParams: Promise<{ order?: string; demo?: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { order } = await searchParams;
+  const { order, demo } = await searchParams;
   const t = await getTranslations("success");
 
   return (
@@ -27,6 +27,12 @@ export default async function SuccessPage({
       <p className="mt-3 max-w-md text-[var(--ink-soft)]">
         {t("text", { number: order ?? "—" })}
       </p>
+      {demo === "1" && (
+        <p className="mt-5 max-w-md rounded-lg border border-[var(--line-strong)] bg-[var(--surface-2)] px-4 py-3 text-xs leading-relaxed text-[var(--ink-mute)]">
+          {t("demoNotice")}
+        </p>
+      )}
+
       <Link
         href="/"
         className="mt-8 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-[var(--accent-ink)]"

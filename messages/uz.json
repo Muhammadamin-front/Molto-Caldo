@@ -76,7 +76,8 @@
     "total": "Jami",
     "checkout": "Buyurtma berish",
     "continue": "Xaridni davom ettirish",
-    "freeShippingNote": "{amount} dan yuqori buyurtmalarga yetkazish bepul."
+    "freeShippingNote": "{amount} dan yuqori buyurtmalarga yetkazish bepul.",
+    "adjusted": "Savat yangilandi: narx yoki zaxira o'zgargan mahsulotlar bor."
   },
   "checkout": {
     "title": "Buyurtma rasmiylashtirish",
@@ -97,12 +98,14 @@
     "orderSummary": "Buyurtma tarkibi",
     "required": "Bu maydon to'ldirilishi shart",
     "invalidPhone": "Telefon raqamni to'g'ri kiriting",
-    "error": "Buyurtmani yuborishda xatolik yuz berdi. Qaytadan urinib ko'ring."
+    "error": "Buyurtmani yuborishda xatolik yuz berdi. Qaytadan urinib ko'ring.",
+    "stockChanged": "Ba'zi mahsulotlar zaxirasi tugab qoldi. Savat yangilandi — qayta ko'rib chiqing."
   },
   "success": {
     "title": "Buyurtmangiz qabul qilindi",
     "text": "Buyurtma raqami: {number}. Menejerimiz tez orada siz bilan bog'lanadi.",
-    "home": "Bosh sahifaga"
+    "home": "Bosh sahifaga",
+    "demoNotice": "Demo rejimi: baza ulanmagani uchun bu buyurtma saqlanmadi. Bog'lanish uchun telefon qiling."
   },
   "footer": {
     "tagline": "Italyan ruhidagi issiq ustki kiyim.",

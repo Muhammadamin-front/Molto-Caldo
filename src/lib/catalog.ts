@@ -1,5 +1,5 @@
 import "server-only";
-import { eq, asc, desc, and } from "drizzle-orm";
+import { eq, asc, desc, and, inArray } from "drizzle-orm";
 import type { Locale } from "@/i18n/routing";
 import { sampleCategories, sampleProducts } from "@/db/sample-data";
 
@@ -208,4 +208,78 @@ export async function getAllProductSlugs(): Promise<string[]> {
     .from(schema.products)
     .where(eq(schema.products.isActive, true));
   return rows.map((r) => r.slug);
+}
+
+/* ------------------------------------------------- buyurtma uchun variant */
+
+/**
+ * Savat qatori uchun serverdagi haqiqiy ma'lumot. Narx va zaxira faqat shu
+ * yerdan olinadi — klient yuborgan narxga ishonib bo'lmaydi.
+ */
+export interface PricedVariant {
+  variantId: number;
+  productSlug: string;
+  productName: string;
+  size: string;
+  colorName: string;
+  colorHex: string;
+  image: string;
+  unitPrice: number;
+  stock: number;
+}
+
+/**
+ * Berilgan variant id'lari bo'yicha narx va zaxirani qaytaradi. Topilmagan
+ * yoki nofaol mahsulotga tegishli id'lar ro'yxatga tushmaydi — chaqiruvchi
+ * yetishmagan id'larni o'zi aniqlaydi.
+ */
+export async function getVariantsById(
+  locale: Locale,
+  ids: number[],
+): Promise<PricedVariant[]> {
+  const wanted = new Set(ids);
+  if (wanted.size === 0) return [];
+
+  if (!hasDatabase) {
+    const s = suffix(locale);
+    return sampleProducts
+      .filter((p) => p.isActive)
+      .flatMap((p) =>
+        p.variants
+          .filter((v) => wanted.has(v.id))
+          .map((v) => ({
+            variantId: v.id,
+            productSlug: p.slug,
+            productName: p[`name${s}` as "nameUz"],
+            size: v.size,
+            colorName: v.colorName,
+            colorHex: v.colorHex,
+            image: p.images[0] ?? "",
+            unitPrice: p.price,
+            stock: v.stock,
+          })),
+      );
+  }
+
+  const { db, schema } = await import("@/db");
+  const s = suffix(locale);
+
+  const rows = await db.query.productVariants.findMany({
+    where: inArray(schema.productVariants.id, [...wanted]),
+    with: { product: true },
+  });
+
+  return rows
+    .filter((v) => v.product.isActive)
+    .map((v) => ({
+      variantId: v.id,
+      productSlug: v.product.slug,
+      productName: v.product[`name${s}` as "nameUz"],
+      size: v.size,
+      colorName: v.colorName,
+      colorHex: v.colorHex,
+      image: v.product.images[0] ?? "",
+      unitPrice: v.product.price,
+      stock: v.stock,
+    }));
 }
