@@ -54,6 +54,7 @@ export default async function LookbookPage({
           groups={groups}
           countLabel={t("pieces")}
           hoverLabel={t("hover")}
+          viewLabel={t("cta")}
         />
       </div>
     </div>

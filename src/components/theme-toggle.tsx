@@ -10,8 +10,11 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setDark(document.documentElement.getAttribute("data-theme") === "dark");
-    setMounted(true);
+    const frame = window.requestAnimationFrame(() => {
+      setDark(document.documentElement.getAttribute("data-theme") === "dark");
+      setMounted(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   function toggle() {

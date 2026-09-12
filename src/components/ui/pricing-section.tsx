@@ -1,296 +1,185 @@
 "use client";
+
+import { useId, useRef, useState } from "react";
+import NumberFlow from "@number-flow/react";
+import { Check, Sparkles } from "lucide-react";
+import { motion } from "motion/react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { TimelineContent } from "@/components/ui/timeline-animation";
-import NumberFlow from "@number-flow/react";
-import { Briefcase, CheckCheck, Database, Server } from "lucide-react";
-import { motion } from "motion/react";
-import { useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
-const plans = [
-  {
-    name: "Starter",
-    description:
-      "Great for small businesses and startups looking to get started with AI",
-    price: 12,
-    yearlyPrice: 99,
-    buttonText: "Get started",
-    buttonVariant: "outline" as const,
-    features: [
-      { text: "Up to 10 boards per workspace", icon: <Briefcase size={20} /> },
-      { text: "Up to 10GB storage", icon: <Database size={20} /> },
-      { text: "Limited analytics", icon: <Server size={20} /> },
-    ],
-    includes: [
-      "Free includes:",
-      "Unlimted Cards",
-      "Custom background & stickers",
-      "2-factor authentication",
-    ],
-  },
-  {
-    name: "Business",
-    description:
-      "Best value for growing businesses that need more advanced features",
-    price: 48,
-    yearlyPrice: 399,
-    buttonText: "Get started",
-    buttonVariant: "default" as const,
-    popular: true,
-    features: [
-      { text: "Unlimted boards", icon: <Briefcase size={20} /> },
-      { text: "Storage (250MB/file)", icon: <Database size={20} /> },
-      { text: "100 workspace command runs", icon: <Server size={20} /> },
-    ],
-    includes: [
-      "Everything in Starter, plus:",
-      "Advanced checklists",
-      "Custom fields",
-      "Servedless functions",
-    ],
-  },
-  {
-    name: "Enterprise",
-    description:
-      "Advanced plan with enhanced security and unlimited access for large teams",
-    price: 96,
-    yearlyPrice: 899,
-    buttonText: "Get started",
-    buttonVariant: "outline" as const,
-    features: [
-      { text: "Unlimited board", icon: <Briefcase size={20} /> },
-      { text: "Unlimited storage ", icon: <Database size={20} /> },
-      { text: "Unlimited workspaces", icon: <Server size={20} /> },
-    ],
-    includes: [
-      "Everything in Business, plus:",
-      "Multi-board management",
-      "Multi-board guest",
-      "Attachment permissions",
-    ],
-  },
-];
+export interface PricingTier {
+  name: string;
+  price: number;
+  priceNote: string;
+  description: string;
+  features: string[];
+  highlighted?: boolean;
+}
 
-const PricingSwitch = ({ onSwitch }: { onSwitch: (value: string) => void }) => {
-  const [selected, setSelected] = useState("0");
+interface PricingSectionProps {
+  tiers: { standard: PricingTier[]; express: PricingTier[] };
+  standardLabel: string;
+  expressLabel: string;
+  currency: string;
+}
 
-  const handleSwitch = (value: string) => {
-    setSelected(value);
-    onSwitch(value);
-  };
+function PricingSwitch({
+  express,
+  standardLabel,
+  expressLabel,
+  onChange,
+}: {
+  express: boolean;
+  standardLabel: string;
+  expressLabel: string;
+  onChange: (express: boolean) => void;
+}) {
+  const layoutId = useId();
 
   return (
-    <div className="flex justify-center">
-      <div className="relative z-50 mx-auto flex w-fit rounded-full bg-neutral-50 border border-gray-200 p-1">
-        <button
-          onClick={() => handleSwitch("0")}
-          className={`relative z-10 w-fit sm:h-12 h-10 rounded-full sm:px-6 px-3 sm:py-2 py-1 font-medium transition-colors ${
-            selected === "0"
-              ? "text-white"
-              : "text-muted-foreground hover:text-black"
-          }`}
-        >
-          {selected === "0" && (
-            <motion.span
-              layoutId={"switch"}
-              className="absolute top-0 left-0 sm:h-12 h-10 w-full rounded-full border-4 shadow-sm shadow-blue-600 border-blue-600 bg-gradient-to-t from-blue-500 via-blue-400 to-blue-600"
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            />
-          )}
-          <span className="relative">Monthly</span>
-        </button>
-
-        <button
-          onClick={() => handleSwitch("1")}
-          className={`relative z-10 w-fit sm:h-12 h-8 flex-shrink-0 rounded-full sm:px-6 px-3 sm:py-2 py-1 font-medium transition-colors ${
-            selected === "1"
-              ? "text-white"
-              : "text-muted-foreground hover:text-black"
-          }`}
-        >
-          {selected === "1" && (
-            <motion.span
-              layoutId={"switch"}
-              className="absolute top-0 left-0 sm:h-12 h-10 w-full rounded-full border-4 shadow-sm shadow-blue-600 border-blue-600 bg-gradient-to-t from-blue-500 via-blue-400 to-blue-600"
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            />
-          )}
-          <span className="relative flex items-center gap-2">
-            Yearly
-            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-black">
-              Save 20%
-            </span>
-          </span>
-        </button>
-      </div>
+    <div
+      className="inline-flex rounded-full border border-[var(--line-strong)] bg-[var(--surface-2)] p-1"
+      role="group"
+      aria-label={`${standardLabel} / ${expressLabel}`}
+    >
+      {[
+        { label: standardLabel, value: false },
+        { label: expressLabel, value: true },
+      ].map((option) => {
+        const active = express === option.value;
+        return (
+          <button
+            key={option.label}
+            type="button"
+            onClick={() => onChange(option.value)}
+            aria-pressed={active}
+            className={cn(
+              "relative isolate rounded-full px-5 py-2 text-sm font-semibold transition-colors",
+              active
+                ? "text-[var(--accent-ink)]"
+                : "text-[var(--ink-soft)] hover:text-[var(--ink)]",
+            )}
+          >
+            {active && (
+              <motion.span
+                layoutId={`pricing-switch-${layoutId}`}
+                className="absolute inset-0 -z-10 rounded-full bg-[var(--accent)] shadow-[0_8px_24px_-12px_var(--accent)]"
+                transition={{ type: "spring", stiffness: 420, damping: 34 }}
+              />
+            )}
+            {option.label}
+          </button>
+        );
+      })}
     </div>
   );
-};
+}
 
-export default function PricingSection() {
-  const [isYearly, setIsYearly] = useState(false);
-  const pricingRef = useRef<HTMLDivElement>(null);
+/**
+ * `pricing_prompt.md` komponentining Molto Caldo yetkazib berish tariflariga
+ * moslashtirilgan ko'rinishi. NumberFlow, animatsiyali switch va timeline
+ * ochilishi original prompt mexanikasini saqlaydi.
+ */
+export default function PricingSection({
+  tiers,
+  standardLabel,
+  expressLabel,
+  currency,
+}: PricingSectionProps) {
+  const [isExpress, setIsExpress] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const plans = isExpress ? tiers.express : tiers.standard;
 
   const revealVariants = {
     visible: (i: number) => ({
       y: 0,
       opacity: 1,
       filter: "blur(0px)",
-      transition: {
-        delay: i * 0.4,
-        duration: 0.5,
-      },
+      transition: { delay: i * 0.14, duration: 0.5 },
     }),
-    hidden: {
-      filter: "blur(10px)",
-      y: -20,
-      opacity: 0,
-    },
+    hidden: { filter: "blur(8px)", y: -16, opacity: 0 },
   };
 
-  const togglePricingPeriod = (value: string) =>
-    setIsYearly(Number.parseInt(value) === 1);
-
   return (
-    <div className="px-4 pt-20 min-h-screen mx-auto relative bg-neutral-100" ref={pricingRef}>
-      <div
-        className="absolute top-0 left-[10%] right-[10%] w-[80%] h-full z-0"
-        style={{
-          backgroundImage: `
-        radial-gradient(circle at center, #206ce8 0%, transparent 70%)
-      `,
-          opacity: 0.6,
-          mixBlendMode: "multiply",
-        }}
-      />
-
-      <div className="text-center mb-6 max-w-3xl mx-auto">
-        <TimelineContent
-          as="h2"
-          animationNum={0}
-          timelineRef={pricingRef}
-          customVariants={revealVariants}
-          className="md:text-6xl sm:text-4xl text-3xl font-medium text-gray-900 mb-4"
-        >
-          Plans that works best for your{" "}
-          <TimelineContent
-            as="span"
-            animationNum={1}
-            timelineRef={pricingRef}
-            customVariants={revealVariants}
-            className="border border-dashed border-blue-500 px-2 py-1 rounded-xl bg-blue-100 capitalize inline-block"
-          >
-            business
-          </TimelineContent>
-        </TimelineContent>
-
-        <TimelineContent
-          as="p"
-          animationNum={2}
-          timelineRef={pricingRef}
-          customVariants={revealVariants}
-          className="sm:text-base text-sm text-gray-600 sm:w-[70%] w-[80%] mx-auto"
-        >
-          Trusted by millions, We help teams all around the world, Explore which
-          option is right for you.
-        </TimelineContent>
-      </div>
-
+    <section ref={sectionRef} className="mc-container py-12">
       <TimelineContent
-        as="div"
-        animationNum={3}
-        timelineRef={pricingRef}
+        animationNum={0}
+        timelineRef={sectionRef}
         customVariants={revealVariants}
+        className="flex justify-center"
       >
-        <PricingSwitch onSwitch={togglePricingPeriod} />
+        <PricingSwitch
+          express={isExpress}
+          standardLabel={standardLabel}
+          expressLabel={expressLabel}
+          onChange={setIsExpress}
+        />
       </TimelineContent>
 
-      <div className="grid md:grid-cols-3 max-w-7xl gap-4 py-6 mx-auto">
+      <div className="mt-12 grid gap-6 lg:grid-cols-3">
         {plans.map((plan, index) => (
           <TimelineContent
-            key={plan.name}
-            as="div"
-            animationNum={4 + index}
-            timelineRef={pricingRef}
+            key={`${isExpress ? "express" : "standard"}-${plan.name}`}
+            animationNum={index + 1}
+            timelineRef={sectionRef}
             customVariants={revealVariants}
           >
             <Card
-              className={`relative border-neutral-200 ${
-                plan.popular ? "ring-2 ring-blue-500 bg-blue-50" : "bg-white "
-              }`}
+              className={cn(
+                "group relative h-full overflow-hidden transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1",
+                plan.highlighted
+                  ? "border-[var(--accent)] bg-[var(--surface-2)] shadow-[0_24px_60px_-38px_var(--accent)]"
+                  : "hover:border-[var(--line-strong)] hover:shadow-[var(--shadow-card)]",
+              )}
             >
-              <CardHeader className="text-left">
-                <div className="flex justify-between">
-                  <h3 className="text-3xl font-semibold text-gray-900 mb-2">
-                    {plan.name}
-                  </h3>
-                  {plan.popular && (
-                    <div className="">
-                      <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                        Popular
-                      </span>
-                    </div>
-                  )}
+              {plan.highlighted && (
+                <div className="absolute right-5 top-5 grid size-8 place-items-center rounded-full bg-[var(--accent)] text-[var(--accent-ink)]">
+                  <Sparkles size={15} aria-hidden="true" />
                 </div>
-                <p className="text-sm text-gray-600 mb-4">{plan.description}</p>
-                <div className="flex items-baseline">
-                  <span className="text-4xl font-semibold text-gray-900">
-                    $
-                    <NumberFlow
-                      value={isYearly ? plan.yearlyPrice : plan.price}
-                      className="text-4xl font-semibold"
-                    />
-                  </span>
-                  <span className="text-gray-600 ml-1">
-                    /{isYearly ? "year" : "month"}
-                  </span>
-                </div>
+              )}
+
+              <CardHeader className="pr-16">
+                <h2 className="font-display text-2xl font-semibold tracking-tight">
+                  {plan.name}
+                </h2>
+                <p className="mt-2 min-h-10 text-sm leading-relaxed text-[var(--ink-soft)]">
+                  {plan.description}
+                </p>
               </CardHeader>
 
-              <CardContent className="pt-0">
-                <button
-                  className={`w-full mb-6 p-4 text-xl rounded-xl ${
-                    plan.popular
-                      ? "bg-gradient-to-t from-blue-500 to-blue-600  shadow-lg shadow-blue-500 border border-blue-400 text-white"
-                      : plan.buttonVariant === "outline"
-                        ? "bg-gradient-to-t from-neutral-900 to-neutral-600  shadow-lg shadow-neutral-900 border border-neutral-700 text-white"
-                        : ""
-                  }`}
-                >
-                  {plan.buttonText}
-                </button>
-                <ul className="space-y-2 font-semibold py-5">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <span className="text-neutral-800 grid place-content-center mt-0.5 mr-3">
-                        {feature.icon}
+              <CardContent>
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 border-b border-[var(--line)] pb-6">
+                  <NumberFlow
+                    value={plan.price}
+                    format={{ useGrouping: true }}
+                    className="font-display text-[clamp(2.25rem,5vw,3.25rem)] font-semibold tracking-tight"
+                  />
+                  <span className="text-sm font-medium text-[var(--ink-soft)]">
+                    {currency}
+                  </span>
+                  <p className="w-full text-xs text-[var(--ink-mute)]">
+                    {plan.priceNote}
+                  </p>
+                </div>
+
+                <ul className="space-y-3 pt-6">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex gap-2.5 text-sm">
+                      <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] text-[var(--accent)]">
+                        <Check size={13} strokeWidth={2.5} aria-hidden="true" />
                       </span>
-                      <span className="text-sm text-gray-600">
-                        {feature.text}
+                      <span className="leading-relaxed text-[var(--ink-soft)]">
+                        {feature}
                       </span>
                     </li>
                   ))}
                 </ul>
-
-                <div className="space-y-3 pt-4 border-t border-neutral-200">
-                  <h4 className="font-medium text-base text-gray-900 mb-3">
-                    {plan.includes[0]}
-                  </h4>
-                  <ul className="space-y-2 font-semibold">
-                    {plan.includes.slice(1).map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center">
-                        <span className="h-6 w-6 bg-green-50 border border-blue-500 rounded-full grid place-content-center mt-0.5 mr-3">
-                          <CheckCheck className="h-4 w-4 text-blue-500 " />
-                        </span>
-                        <span className="text-sm text-gray-600">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </CardContent>
             </Card>
           </TimelineContent>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

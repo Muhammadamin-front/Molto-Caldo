@@ -1,5 +1,9 @@
+"use client";
+
+import Image from "next/image";
 import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, forwardRef } from 'react';
-import { Sun, Moon, X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from "@/i18n/navigation";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -18,6 +22,7 @@ export interface Project {
   id: string;
   image: string;
   title: string;
+  href?: string;
 }
 
 const PLACEHOLDER_IMAGE = "/products/placeholder.jpg";
@@ -47,6 +52,9 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
     return (
       <div
         ref={ref}
+        role="button"
+        tabIndex={isVisible ? 0 : -1}
+        aria-label={title}
         className={cn(
           "absolute w-20 h-28 cursor-pointer group/card",
           isSelected && "opacity-0",
@@ -65,15 +73,24 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
           e.stopPropagation();
           onClick();
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            e.stopPropagation();
+            onClick();
+          }
+        }}
       >
         <div className={cn(
           "w-full h-full rounded-lg overflow-hidden shadow-xl bg-card border border-white/5 relative",
           "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
           "group-hover/card:-translate-y-6 group-hover/card:shadow-2xl group-hover/card:shadow-accent/40 group-hover/card:ring-2 group-hover/card:ring-accent group-hover/card:scale-125"
         )}>
-          <img 
+          <Image
             src={image || PLACEHOLDER_IMAGE} 
-            alt={title} 
+            alt={title}
+            fill
+            sizes="80px"
             className="w-full h-full object-cover"
             onError={(e) => {
               (e.target as HTMLImageElement).src = PLACEHOLDER_IMAGE;
@@ -98,6 +115,7 @@ interface ImageLightboxProps {
   sourceRect: DOMRect | null;
   onCloseComplete?: () => void;
   onNavigate: (index: number) => void;
+  viewLabel: string;
 }
 
 const ImageLightbox: React.FC<ImageLightboxProps> = ({
@@ -108,6 +126,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
   sourceRect,
   onCloseComplete,
   onNavigate,
+  viewLabel,
 }) => {
   const [animationPhase, setAnimationPhase] = useState<"initial" | "animating" | "complete">("initial");
   const [isClosing, setIsClosing] = useState(false);
@@ -123,19 +142,28 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   useEffect(() => {
     if (isOpen && currentIndex !== internalIndex && !isSliding) {
-      setIsSliding(true);
-      const timer = setTimeout(() => {
-        setInternalIndex(currentIndex);
-        setIsSliding(false);
-      }, 400);
-      return () => clearTimeout(timer);
+      let timer = 0;
+      const frame = requestAnimationFrame(() => {
+        setIsSliding(true);
+        timer = window.setTimeout(() => {
+          setInternalIndex(currentIndex);
+          setIsSliding(false);
+        }, 400);
+      });
+      return () => {
+        cancelAnimationFrame(frame);
+        window.clearTimeout(timer);
+      };
     }
   }, [currentIndex, isOpen, internalIndex, isSliding]);
 
   useEffect(() => {
     if (isOpen) {
-      setInternalIndex(currentIndex);
-      setIsSliding(false);
+      const frame = requestAnimationFrame(() => {
+        setInternalIndex(currentIndex);
+        setIsSliding(false);
+      });
+      return () => cancelAnimationFrame(frame);
     }
   }, [isOpen, currentIndex]);
 
@@ -177,18 +205,23 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   useLayoutEffect(() => {
     if (isOpen && sourceRect) {
-      setShouldRender(true);
-      setAnimationPhase("initial");
-      setIsClosing(false);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
+      let secondFrame = 0;
+      const firstFrame = requestAnimationFrame(() => {
+        setShouldRender(true);
+        setAnimationPhase("initial");
+        setIsClosing(false);
+        secondFrame = requestAnimationFrame(() => {
           setAnimationPhase("animating");
         });
       });
       const timer = setTimeout(() => {
         setAnimationPhase("complete");
       }, 700);
-      return () => clearTimeout(timer);
+      return () => {
+        cancelAnimationFrame(firstFrame);
+        cancelAnimationFrame(secondFrame);
+        clearTimeout(timer);
+      };
     }
   }, [isOpen, sourceRect]);
 
@@ -229,6 +262,9 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={currentProject.title}
       className={cn("fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8")}
       onClick={handleClose}
       style={{
@@ -244,6 +280,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
         }}
       />
       <button
+        type="button"
+        aria-label="Close"
         onClick={(e) => { e.stopPropagation(); handleClose(); }}
         className={cn(
           "absolute top-6 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-muted/30 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground hover:bg-muted transition-all duration-300",
@@ -257,6 +295,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
         <X className="w-5 h-5" strokeWidth={2.5} />
       </button>
       <button
+        type="button"
+        aria-label="Previous image"
         onClick={(e) => { e.stopPropagation(); navigatePrev(); }}
         disabled={!hasPrev || isSliding}
         className={cn(
@@ -271,6 +311,8 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
         <ChevronLeft className="w-6 h-6" strokeWidth={3} />
       </button>
       <button
+        type="button"
+        aria-label="Next image"
         onClick={(e) => { e.stopPropagation(); navigateNext(); }}
         disabled={!hasNext || isSliding}
         className={cn(
@@ -304,11 +346,13 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
                 transition: isSliding ? "transform 500ms cubic-bezier(0.16, 1, 0.3, 1)" : "none",
               }}
             >
-              {projects.map((project, idx) => (
+              {projects.map((project) => (
                 <div key={project.id} className="min-w-full h-full relative">
-                  <img
+                  <Image
                     src={project.image || PLACEHOLDER_IMAGE}
                     alt={project.title}
+                    fill
+                    sizes="(min-width: 768px) 800px, calc(100vw - 32px)"
                     className="w-full h-full object-cover select-none"
                     onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMAGE; }}
                   />
@@ -318,21 +362,23 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
             </div>
           </div>
           <div
-            className={cn("px-8 py-7 bg-card border-t border-white/5")}
+            className={cn("bg-card border-t border-white/5 px-5 py-5 sm:px-8 sm:py-7")}
             style={{
               opacity: animationPhase === "complete" && !isClosing ? 1 : 0,
               transform: animationPhase === "complete" && !isClosing ? "translateY(0)" : "translateY(40px)",
               transition: "opacity 500ms ease-out 500ms, transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 500ms",
             }}
           >
-            <div className="flex items-center justify-between gap-6">
-              <div className="flex-1 min-w-0">
-                <h3 className="text-2xl font-bold text-foreground tracking-tight truncate">{currentProject?.title}</h3>
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl font-bold text-foreground tracking-tight sm:truncate sm:text-2xl">{currentProject?.title}</h3>
                 <div className="flex items-center gap-4 mt-2">
                   <div className="flex items-center gap-1.5 px-2.5 py-1 bg-muted rounded-full border border-white/5">
-                    {projects.map((_, idx) => (
+                    {projects.map((project, idx) => (
                       <button
                         key={idx}
+                        type="button"
+                        aria-label={`${idx + 1}: ${project.title}`}
                         onClick={() => handleDotClick(idx)}
                         className={cn("w-1.5 h-1.5 rounded-full transition-all duration-500", idx === internalIndex ? "bg-foreground scale-150" : "bg-muted-foreground/30 hover:bg-muted-foreground/60")}
                       />
@@ -341,10 +387,13 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
                   <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">{internalIndex + 1} / {totalProjects}</p>
                 </div>
               </div>
-              <button className={cn("flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground bg-primary hover:brightness-110 rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-105 active:scale-95")}>
-                <span>View Project</span>
+              <Link
+                href={currentProject.href ?? "/catalog"}
+                className={cn("flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-105 hover:brightness-110 active:scale-95 sm:w-auto")}
+              >
+                <span>{viewLabel}</span>
                 <ExternalLink className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -361,9 +410,10 @@ interface AnimatedFolderProps {
   /** Sayt tiliga mos matnlar; berilmasa inglizcha sukut qiymati ishlatiladi. */
   countLabel?: string;
   hoverLabel?: string;
+  viewLabel?: string;
 }
 
-export const AnimatedFolder: React.FC<AnimatedFolderProps> = ({ title, projects, className, gradient, countLabel, hoverLabel }) => {
+export const AnimatedFolder: React.FC<AnimatedFolderProps> = ({ title, projects, className, gradient, countLabel, hoverLabel, viewLabel }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [sourceRect, setSourceRect] = useState<DOMRect | null>(null);
@@ -390,10 +440,21 @@ export const AnimatedFolder: React.FC<AnimatedFolderProps> = ({ title, projects,
   return (
     <>
       <div
+        role="group"
+        aria-label={title}
+        tabIndex={0}
         className={cn("relative flex flex-col items-center justify-center p-8 rounded-2xl cursor-pointer bg-card border border-border transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-2xl hover:shadow-accent/20 hover:border-accent/40 group", className)}
         style={{ minWidth: "280px", minHeight: "320px", perspective: "1200px", transform: isHovered ? "scale(1.04) rotate(-1.5deg)" : "scale(1) rotate(0deg)" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={() => setIsHovered((value) => !value)}
+        onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setIsHovered((value) => !value);
+          }
+        }}
       >
         <div
           className="absolute inset-0 rounded-2xl transition-opacity duration-700"
@@ -418,7 +479,7 @@ export const AnimatedFolder: React.FC<AnimatedFolderProps> = ({ title, projects,
           <span>{hoverLabel ?? 'Hover'}</span>
         </div>
       </div>
-      <ImageLightbox projects={projects} currentIndex={selectedIndex ?? 0} isOpen={selectedIndex !== null} onClose={handleCloseLightbox} sourceRect={sourceRect} onCloseComplete={handleCloseComplete} onNavigate={handleNavigate} />
+      <ImageLightbox projects={projects} currentIndex={selectedIndex ?? 0} isOpen={selectedIndex !== null} onClose={handleCloseLightbox} sourceRect={sourceRect} onCloseComplete={handleCloseComplete} onNavigate={handleNavigate} viewLabel={viewLabel ?? "View project"} />
     </>
   );
 };

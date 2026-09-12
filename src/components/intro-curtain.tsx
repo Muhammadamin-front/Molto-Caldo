@@ -22,8 +22,8 @@ export function IntroCurtain({
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
-      setDone(true);
-      return;
+      const frame = window.requestAnimationFrame(() => setDone(true));
+      return () => window.cancelAnimationFrame(frame);
     }
 
     // Parda turganda orqa fon surilmasin.

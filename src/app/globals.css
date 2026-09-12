@@ -165,6 +165,10 @@ body {
   border-top: 1px solid var(--line);
 }
 
+main:has(.mc-final-cta) + footer {
+  margin-top: 0;
+}
+
 /* ------------------------------------------------------------------ intro
    Sayt ochilganda ~2 soniya turadigan salomlashuv pardasi.
    Yashirish CSS animatsiyasi bilan bajariladi (JS ishlamasa ham sayt
@@ -301,6 +305,17 @@ body {
   border-radius: 999px;
   background: var(--accent);
   animation: mc-cue 1.8s var(--ease) infinite;
+}
+
+/* ImageStreamHero faqat kartalar qatlamiga ta'sir qiladi; matn tiniq qoladi. */
+.mc-hero-stream > [aria-hidden] {
+  opacity: 0.78;
+}
+
+@media (max-width: 639px) {
+  .mc-hero-stream > [aria-hidden] {
+    opacity: 0.56;
+  }
 }
 
 @keyframes mc-cue {

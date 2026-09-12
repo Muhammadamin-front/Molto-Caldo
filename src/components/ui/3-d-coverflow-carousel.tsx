@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import Image from "next/image";
 
 // Inline Icons (Zero external dependencies)
 const ChevronLeftIcon = () => (
@@ -126,7 +127,7 @@ export function CoverFlowCarousel({
 
   return (
     <section
-      className={`relative w-full min-h-[760px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
+      className={`relative flex min-h-[680px] w-full select-none items-center justify-center overflow-hidden py-10 sm:min-h-[760px] sm:py-12 ${className}`}
       style={{
         backgroundColor: "#0c0a09",
         color: "#ffffff",
@@ -139,12 +140,13 @@ export function CoverFlowCarousel({
     >
       {/* Background Ambience */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <img
+        <Image
           src={items[currentIndex]?.img}
-          alt="ambience background"
+          alt=""
+          fill
+          sizes="100vw"
+          loading="eager"
           style={{
-            width: "100%",
-            height: "100%",
             objectFit: "cover",
             filter: "brightness(0.22) blur(32px)",
             transform: "scale(1.15)",
@@ -182,7 +184,7 @@ export function CoverFlowCarousel({
 
         {/* 3D Coverflow Stage */}
         <div
-          className="relative w-full h-[520px] flex justify-center items-center mb-8"
+          className="relative mb-8 flex h-[460px] w-full items-center justify-center sm:h-[520px]"
           style={{ perspective: "1400px" }}
         >
           {items.map((item, idx) => {
@@ -228,8 +230,8 @@ export function CoverFlowCarousel({
                 onClick={() => !isCenter && goToSlide(idx)}
                 style={{
                   position: "absolute",
-                  width: "330px",
-                  height: "500px",
+                  width: "min(330px, calc(100vw - 48px))",
+                  height: "min(500px, 132vw)",
                   borderRadius: "18px",
                   overflow: "hidden",
                   backgroundColor: "#171311",
@@ -247,14 +249,13 @@ export function CoverFlowCarousel({
                 }}
               >
                 {/* Photo */}
-                <img
+                <Image
                   src={item.img}
                   alt={item.titleLine1}
+                  fill
+                  sizes="(min-width: 640px) 330px, calc(100vw - 48px)"
+                  loading="eager"
                   style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
                     objectFit: "cover",
                   }}
                 />
@@ -416,7 +417,7 @@ export function CoverFlowCarousel({
           aria-label="Previous dish"
           style={{
             position: "absolute",
-            left: "24px",
+            left: "12px",
             top: "50%",
             transform: "translateY(-50%)",
             width: "46px",
@@ -443,7 +444,7 @@ export function CoverFlowCarousel({
           aria-label="Next dish"
           style={{
             position: "absolute",
-            right: "24px",
+            right: "12px",
             top: "50%",
             transform: "translateY(-50%)",
             width: "46px",

@@ -9,7 +9,7 @@ export function FinalCta() {
   const t = useTranslations("cta");
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#0d0d0e] text-[#f6f6f7] reveal-section">
+    <section className="mc-final-cta relative isolate overflow-hidden bg-[#0d0d0e] text-[#f6f6f7] reveal-section">
       <div className="absolute inset-0 -z-10 opacity-60">
         <LiquidEffectAnimation />
       </div>

@@ -84,7 +84,7 @@ export default async function HomePage({
             {tl("lead")}
           </p>
         </div>
-        <LookbookCarousel items={lookbookItems} sectionLabel={tl("label")} />
+        <LookbookCarousel items={lookbookItems} sectionLabel="" />
       </section>
 
       {/* -------------------------------------------------------- featured */}

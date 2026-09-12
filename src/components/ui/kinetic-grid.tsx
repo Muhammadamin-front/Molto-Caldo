@@ -292,21 +292,18 @@ export default function KineticGrid({
     [getWarpedPoint, globalColor],
   );
 
-  const animate = useCallback(
-    (now: number) => {
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const animate = (now: number) => {
       const mouse = mouseRef.current;
       const target = targetMouseRef.current;
       mouse.x = lerpN(mouse.x, target.x, LERP_SPEED);
       mouse.y = lerpN(mouse.y, target.y, LERP_SPEED);
       draw(now);
       rafRef.current = requestAnimationFrame(animate);
-    },
-    [draw],
-  );
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    };
 
     const setSize = () => {
       const width = window.innerWidth;
@@ -351,7 +348,7 @@ export default function KineticGrid({
       window.removeEventListener("click", onClick);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [animate, draw]);
+  }, [draw]);
 
   return (
     <div

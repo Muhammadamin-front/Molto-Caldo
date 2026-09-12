@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { DeliveryTiers, type Tier } from "@/components/sections/delivery-tiers";
+import PricingSection, {
+  type PricingTier,
+} from "@/components/ui/pricing-section";
 
 export async function generateMetadata({
   params,
@@ -25,8 +27,8 @@ export default async function DeliveryPage({
   const tc = await getTranslations("common");
 
   const tiers = {
-    standard: t.raw("tiers.standard") as Tier[],
-    express: t.raw("tiers.express") as Tier[],
+    standard: t.raw("tiers.standard") as PricingTier[],
+    express: t.raw("tiers.express") as PricingTier[],
   };
 
   return (
@@ -40,7 +42,7 @@ export default async function DeliveryPage({
         </p>
       </div>
 
-      <DeliveryTiers
+      <PricingSection
         tiers={tiers}
         standardLabel={t("standardLabel")}
         expressLabel={t("expressLabel")}
