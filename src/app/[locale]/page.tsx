@@ -53,7 +53,7 @@ export default async function HomePage({
       <Hero />
 
       {/* ------------------------------------------------------ categories */}
-      <section className="mc-container py-10">
+      <section id="below" className="mc-container py-14 reveal-section">
         <div className="grid gap-3 sm:grid-cols-3" data-stagger>
           {categories.map((c) => (
             <Link
@@ -72,8 +72,8 @@ export default async function HomePage({
       </section>
 
       {/* --------------------------------------------------------- lookbook */}
-      <section className="py-10">
-        <div className="mc-container mb-2 text-center reveal">
+      <section className="py-14 reveal-section">
+        <div className="mc-container mb-2 text-center">
           <p className="text-xs font-medium tracking-[0.28em] text-[var(--accent)] uppercase">
             {tl("label")}
           </p>
@@ -88,8 +88,8 @@ export default async function HomePage({
       </section>
 
       {/* -------------------------------------------------------- featured */}
-      <section className="mc-container py-14">
-        <div className="flex flex-wrap items-end justify-between gap-4 reveal">
+      <section className="mc-container py-16 reveal-section">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="font-display text-[clamp(1.7rem,3.5vw,2.5rem)] font-semibold tracking-tight">
               {t("featured")}
@@ -125,9 +125,9 @@ export default async function HomePage({
       <Atelier />
 
       {/* ---------------------------------------------------------- values */}
-      <section className="border-b border-[var(--line)] bg-[var(--surface-2)]">
+      <section className="border-b border-[var(--line)] bg-[var(--surface-2)] reveal-section">
         <div className="mc-container py-14">
-          <h2 className="font-display text-[clamp(1.7rem,3.5vw,2.5rem)] font-semibold tracking-tight reveal">
+          <h2 className="font-display text-[clamp(1.7rem,3.5vw,2.5rem)] font-semibold tracking-tight">
             {t("valuesTitle")}
           </h2>
           <div

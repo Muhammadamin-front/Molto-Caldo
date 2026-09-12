@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import {
   motion,
   VariantLabels,
@@ -26,6 +27,10 @@ export type TextRollProps = {
   };
 
   onAnimationComplete?: () => void;
+  /** Animatsiya to'xtamasdan takrorlansin. */
+  loop?: boolean;
+  /** Takrorlar orasidagi tanaffus, soniyada. */
+  loopDelay?: number;
 };
 
 export function TextRoll({
@@ -37,7 +42,25 @@ export function TextRoll({
   transition = { ease: 'easeIn' },
   variants,
   onAnimationComplete,
+  loop = false,
+  loopDelay = 3.5,
 }: TextRollProps) {
+  // Har bir harfning kechikishi faqat birinchi ishga tushishda qo'llanadi,
+  // shuning uchun tsiklni qaytarish uchun komponentni qayta o'rnatamiz —
+  // shunda to'lqin har safar boshidan yuguradi.
+  const [cycle, setCycle] = useState(0);
+
+  useEffect(() => {
+    if (!loop) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const letterCount = children.length;
+    const pass = duration + getEnterDelay(letterCount) + getExitDelay(letterCount);
+    const period = Math.max(1.5, pass + loopDelay) * 1000;
+
+    const id = window.setInterval(() => setCycle((n) => n + 1), period);
+    return () => window.clearInterval(id);
+  }, [loop, loopDelay, children, duration, getEnterDelay, getExitDelay]);
   const defaultVariants = {
     enter: {
       initial: { rotateX: 0 },
@@ -66,7 +89,7 @@ export function TextRoll({
   if (current.length) words.push(current);
 
   return (
-    <span className={className}>
+    <span className={className} key={cycle}>
       {words.map((word, wi) => (
         <span
           key={wi}

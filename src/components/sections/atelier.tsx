@@ -15,7 +15,7 @@ export function Atelier() {
   const t = useTranslations("atelier");
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#0d0d0e] py-20 text-[#f6f6f7]">
+    <section className="relative isolate overflow-hidden bg-[#0d0d0e] py-20 text-[#f6f6f7] reveal-section">
       <KineticGrid className="absolute inset-0 -z-10 opacity-70" />
 
       <div className="mc-container text-center">

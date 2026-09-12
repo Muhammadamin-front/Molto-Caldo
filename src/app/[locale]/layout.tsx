@@ -82,6 +82,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        {/* JS o'chirilgan brauzerda bo'limlar ochilmay qolmasin. */}
+        <noscript>
+          <style>{`.reveal,.reveal-section,[data-stagger]>*{opacity:1!important;transform:none!important}.mc-intro{display:none!important}`}</style>
+        </noscript>
         {/* Mavzu birinchi bo'yashdan oldin qo'yiladi — aks holda sahifa
             ochilganda oq/qora sakrash ko'rinadi. */}
         <script

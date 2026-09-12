@@ -260,6 +260,63 @@ body {
   .mc-intro { display: none; }
 }
 
+/* ------------------------------------------------------- section reveal
+   Hero ekranni to'liq egallaydi; undan pastdagi bo'limlar faqat ko'rish
+   maydoniga kirganda ochiladi. `.reveal-section` butun blokni bir butun
+   harakat bilan olib chiqadi, ichidagi `[data-stagger]` esa elementlarni
+   birin-ketin qo'shadi.
+-------------------------------------------------------------------------- */
+
+.reveal-section {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 0.85s var(--ease),
+    transform 0.85s var(--ease);
+}
+
+.reveal-section.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Scroll belgisi — hero ostida, pastda davomi borligini bildiradi. */
+.mc-scroll-cue {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  translate: -50% 0;
+  width: 24px;
+  height: 38px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 999px;
+  display: grid;
+  justify-items: center;
+  padding-top: 7px;
+}
+
+.mc-scroll-cue span {
+  width: 3px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  animation: mc-cue 1.8s var(--ease) infinite;
+}
+
+@keyframes mc-cue {
+  0% { transform: translateY(0); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: translateY(14px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section {
+    opacity: 1;
+    transform: none;
+  }
+  .mc-scroll-cue span { animation: none; opacity: 1; }
+}
+
 /* --------------------------------------------------------- infinite slider
    `testimonials-6` shu klasslarga tayanadi: trek ikki nusxadan iborat va
    yarmiga surilgach qaytadan boshlanadi — shuning uchun uzilish ko'rinmaydi.

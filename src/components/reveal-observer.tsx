@@ -13,7 +13,7 @@ export function RevealObserver() {
 
   useEffect(() => {
     const nodes = Array.from(
-      document.querySelectorAll<HTMLElement>(".reveal, [data-stagger]"),
+      document.querySelectorAll<HTMLElement>(".reveal, .reveal-section, [data-stagger]"),
     );
     if (nodes.length === 0) return;
 

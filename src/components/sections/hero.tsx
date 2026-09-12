@@ -15,7 +15,7 @@ export function Hero() {
   const t = useTranslations("home");
 
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate flex min-h-[calc(100svh-4rem)] items-center overflow-hidden md:min-h-[calc(100svh-5rem)]">
       <SonarGrid
         className="absolute inset-0 -z-10"
         spacing={30}
@@ -32,7 +32,7 @@ export function Hero() {
       {/* Matn o'qilishi uchun fon ustidan yumshoq parda. */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-[var(--bg)] via-[var(--bg)]/80 to-transparent" />
 
-      <div className="mc-container grid items-center gap-10 py-20 lg:grid-cols-[1.1fr_.9fr] lg:py-28">
+      <div className="mc-container grid w-full items-center gap-10 py-16 lg:grid-cols-[1.1fr_.9fr]">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--bg)]/70 px-3 py-1.5 text-xs font-medium tracking-wide text-[var(--ink-soft)] uppercase backdrop-blur-sm">
             <span className="size-1.5 animate-pulse rounded-full bg-[var(--accent)]" />
@@ -40,7 +40,13 @@ export function Hero() {
           </span>
 
           <h1 className="mt-6 font-display text-[clamp(2.4rem,6.4vw,4.6rem)] leading-[1.02] font-semibold tracking-[-0.03em]">
-            <TextRoll duration={0.55} getEnterDelay={(i) => i * 0.035}>
+            <TextRoll
+              loop
+              loopDelay={2.6}
+              duration={0.5}
+              getEnterDelay={(i) => i * 0.03}
+              getExitDelay={(i) => i * 0.03 + 0.28}
+            >
               {t("heroTitle")}
             </TextRoll>
           </h1>
@@ -73,6 +79,15 @@ export function Hero() {
           </div>
         </div>
       </div>
+
+      <a
+        href="#below"
+        aria-hidden="true"
+        tabIndex={-1}
+        className="mc-scroll-cue"
+      >
+        <span />
+      </a>
     </section>
   );
 }

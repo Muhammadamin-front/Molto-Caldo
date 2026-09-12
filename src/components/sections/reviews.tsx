@@ -45,7 +45,7 @@ export async function Reviews({ locale }: { locale: Locale }) {
   const t = await getTranslations("reviews");
 
   return (
-    <section className="mc-container py-16">
+    <section className="mc-container py-16 reveal-section">
       <TestimonialsSection
         items={QUOTES[locale]}
         label={t("eyebrow")}
