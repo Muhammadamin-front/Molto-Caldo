@@ -53,9 +53,9 @@ export function Hero() {
             <Link href="/catalog" aria-label={t("shopNow")}>
               <AntiMetalButton
                 label={t("shopNow")}
-                accentFrom="var(--accent-soft)"
-                accentTo="var(--accent)"
-                dotColor="#1a1008"
+                accentFrom="#e63946"
+                accentTo="#c01527"
+                dotColor="#ffffff"
                 className="h-12 w-56"
               />
             </Link>

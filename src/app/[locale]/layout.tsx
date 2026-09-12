@@ -8,6 +8,7 @@ import { CartProvider } from "@/components/cart-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RevealObserver } from "@/components/reveal-observer";
+import { IntroCurtain } from "@/components/intro-curtain";
 import "../globals.css";
 
 const fraunces = Fraunces({
@@ -76,6 +77,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
 
   setRequestLocale(locale);
+  const tIntro = await getTranslations({ locale, namespace: "intro" });
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -91,6 +93,10 @@ export default async function LocaleLayout({
       <body className={`${fraunces.variable} ${inter.variable} antialiased`}>
         <NextIntlClientProvider>
           <CartProvider>
+            <IntroCurtain
+              welcome={tIntro("welcome")}
+              tagline={tIntro("tagline")}
+            />
             <RevealObserver />
             <div className="flex min-h-dvh flex-col">
               <SiteHeader />

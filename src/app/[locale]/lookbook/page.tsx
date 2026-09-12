@@ -15,9 +15,9 @@ export async function generateMetadata({
 }
 
 const GRADIENTS = [
-  "linear-gradient(135deg,#b08056,#8a6340)",
-  "linear-gradient(135deg,#4a5340,#333a2c)",
-  "linear-gradient(135deg,#a4522f,#7d3c21)",
+  "linear-gradient(135deg,#e63946,#a5142a)",
+  "linear-gradient(135deg,#2c2c30,#141416)",
+  "linear-gradient(135deg,#f2f2f3,#c9c9ce)",
 ];
 
 export default async function LookbookPage({

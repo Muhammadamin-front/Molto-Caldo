@@ -6,19 +6,20 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* ------------------------------------------------------------------ theme
-   Molto Caldo — "juda issiq". Palitra jun, teri va cho'g' ranglaridan
-   olingan: iliq krem fon, quyuq siyoh matn va g'ishtsimon cho'g' urg'usi.
+   Molto Caldo — oq va qizil. Toza oq fon mahsulot fotosuratini oldinga
+   chiqaradi, qizil esa faqat harakat nuqtalarida ishlatiladi:
+   tugmalar, chegirma belgilari, urg'u chiziqlari.
 -------------------------------------------------------------------------- */
 
 @theme {
-  --color-cream: #f7f2ea;
-  --color-cream-2: #efe6d9;
-  --color-ink: #1a1310;
-  --color-ink-soft: #6b5a4e;
-  --color-ink-mute: #9b8878;
-  --color-ember: #b8442a;
-  --color-ember-soft: #d0593c;
-  --color-gold: #c08a3e;
+  --color-paper: #ffffff;
+  --color-paper-2: #f4f4f5;
+  --color-ink: #121212;
+  --color-ink-soft: #5b5b5f;
+  --color-ink-mute: #8d8d93;
+  --color-red: #d21f30;
+  --color-red-soft: #e63946;
+  --color-red-deep: #9e1524;
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
@@ -27,39 +28,39 @@
 }
 
 :root {
-  --bg: #f7f2ea;
-  --bg-2: #efe6d9;
+  --bg: #ffffff;
+  --bg-2: #f4f4f5;
   --surface: #ffffff;
-  --surface-2: #faf6f0;
-  --ink: #1a1310;
-  --ink-soft: #6b5a4e;
-  --ink-mute: #9b8878;
-  --line: rgba(26, 19, 16, 0.12);
-  --line-strong: rgba(26, 19, 16, 0.22);
-  --accent: #b8442a;
-  --accent-soft: #d0593c;
-  --accent-ink: #fffaf5;
-  --shadow-card: 0 1px 2px rgba(26, 19, 16, 0.04),
-    0 12px 32px -12px rgba(26, 19, 16, 0.16);
+  --surface-2: #f7f7f8;
+  --ink: #121212;
+  --ink-soft: #5b5b5f;
+  --ink-mute: #8d8d93;
+  --line: rgba(18, 18, 18, 0.12);
+  --line-strong: rgba(18, 18, 18, 0.22);
+  --accent: #d21f30;
+  --accent-soft: #e63946;
+  --accent-ink: #ffffff;
+  --shadow-card: 0 1px 2px rgba(18, 18, 18, 0.04),
+    0 12px 32px -12px rgba(18, 18, 18, 0.18);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --bg: #14100d;
-  --bg-2: #1c1613;
-  --surface: #1c1613;
-  --surface-2: #241c18;
-  --ink: #f4ede3;
-  --ink-soft: #b5a396;
-  --ink-mute: #8b7869;
-  --line: rgba(244, 237, 227, 0.1);
-  --line-strong: rgba(244, 237, 227, 0.2);
-  --accent: #e0653c;
-  --accent-soft: #ee7a52;
-  --accent-ink: #1a1008;
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3),
-    0 12px 32px -12px rgba(0, 0, 0, 0.6);
+  --bg: #0d0d0e;
+  --bg-2: #141416;
+  --surface: #141416;
+  --surface-2: #1b1b1e;
+  --ink: #f6f6f7;
+  --ink-soft: #aeaeb4;
+  --ink-mute: #7c7c83;
+  --line: rgba(246, 246, 247, 0.11);
+  --line-strong: rgba(246, 246, 247, 0.22);
+  --accent: #ff3b4a;
+  --accent-soft: #ff6470;
+  --accent-ink: #14060a;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35),
+    0 12px 32px -12px rgba(0, 0, 0, 0.7);
   color-scheme: dark;
 }
 
@@ -162,4 +163,99 @@ body {
 
 .mc-hairline {
   border-top: 1px solid var(--line);
+}
+
+/* ------------------------------------------------------------------ intro
+   Sayt ochilganda ~2 soniya turadigan salomlashuv pardasi.
+   Yashirish CSS animatsiyasi bilan bajariladi (JS ishlamasa ham sayt
+   ochiladi), React esa tugagach elementni DOM'dan olib tashlaydi.
+-------------------------------------------------------------------------- */
+
+@keyframes mc-intro-out {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes mc-intro-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes mc-intro-rule {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes mc-intro-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.55); opacity: 0.55; }
+}
+
+.mc-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  animation: mc-intro-out 0.5s var(--ease) 1.95s forwards;
+}
+
+.mc-intro-inner {
+  text-align: center;
+  padding-inline: 24px;
+  animation: mc-intro-in 0.75s var(--ease) both;
+}
+
+.mc-intro-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.mc-intro-brand b {
+  font-weight: inherit;
+}
+
+.mc-intro-brand span { color: var(--accent); }
+
+.mc-intro-brand i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: mc-intro-dot 1.5s var(--ease) infinite;
+}
+
+.mc-intro-welcome {
+  margin-top: 22px;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 3.4vw, 1.7rem);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.mc-intro-tagline {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.mc-intro-rule {
+  display: block;
+  height: 1.5px;
+  margin-top: 26px;
+  background: var(--accent);
+  transform-origin: left;
+  animation: mc-intro-rule 1.95s var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-intro { display: none; }
 }

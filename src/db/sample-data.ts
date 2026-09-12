@@ -108,8 +108,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: true,
     isActive: true,
     variants: variants(101, "MC-CM", [
-      { name: "Kamel", hex: "#b08056", stock: [4, 7, 6, 3] },
-      { name: "Grafit", hex: "#3b3a38", stock: [2, 5, 5, 4] },
+      { name: "Oq", hex: "#f2efe9", stock: [4, 7, 6, 3] },
+      { name: "Qora", hex: "#1a1a1c", stock: [2, 5, 5, 4] },
     ]),
   },
   {
@@ -134,8 +134,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: true,
     isActive: true,
     variants: variants(201, "MC-CR", [
-      { name: "Qora", hex: "#1c1a19", stock: [3, 6, 4, 2] },
-      { name: "Marsala", hex: "#6d2b2b", stock: [2, 3, 3, 1] },
+      { name: "Qizil", hex: "#c8102e", stock: [3, 6, 4, 2] },
+      { name: "Qora", hex: "#1a1a1c", stock: [2, 3, 3, 1] },
     ]),
   },
   {
@@ -160,8 +160,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: true,
     isActive: true,
     variants: variants(301, "MC-GA", [
-      { name: "Zaytun", hex: "#4a5340", stock: [5, 8, 7, 4] },
-      { name: "Qora", hex: "#1c1a19", stock: [4, 9, 8, 5] },
+      { name: "Oq", hex: "#f2efe9", stock: [5, 8, 7, 4] },
+      { name: "Grafit", hex: "#3d3d42", stock: [4, 9, 8, 5] },
     ]),
   },
   {
@@ -186,8 +186,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: false,
     isActive: true,
     variants: variants(401, "MC-BI", [
-      { name: "Qora", hex: "#1c1a19", stock: [6, 10, 8, 3] },
-      { name: "Bej", hex: "#c9b295", stock: [3, 5, 4, 2] },
+      { name: "Qizil", hex: "#c8102e", stock: [6, 10, 8, 3] },
+      { name: "Oq", hex: "#f2efe9", stock: [3, 5, 4, 2] },
     ]),
   },
   {
@@ -212,8 +212,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: true,
     isActive: true,
     variants: variants(501, "MC-MM", [
-      { name: "Tutun", hex: "#6e6a63", stock: [7, 12, 9, 5] },
-      { name: "Terrakota", hex: "#a4522f", stock: [4, 8, 6, 3] },
+      { name: "Krem", hex: "#efe9df", stock: [7, 12, 9, 5] },
+      { name: "Qizil", hex: "#c8102e", stock: [4, 8, 6, 3] },
     ]),
   },
   {
@@ -237,8 +237,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: false,
     isActive: true,
     variants: variants(601, "MC-DC", [
-      { name: "Krem", hex: "#e2d6c2", stock: [5, 9, 7, 4] },
-      { name: "Qora", hex: "#1c1a19", stock: [6, 10, 8, 4] },
+      { name: "Oq", hex: "#f6f4f0", stock: [5, 9, 7, 4] },
+      { name: "Qora", hex: "#1a1a1c", stock: [6, 10, 8, 4] },
     ]),
   },
   {
@@ -263,8 +263,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: false,
     isActive: true,
     variants: variants(701, "MC-CL", [
-      { name: "Kamel", hex: "#b08056", stock: [2, 4, 3, 1] },
-      { name: "Grafit", hex: "#3b3a38", stock: [3, 5, 4, 2] },
+      { name: "Grafit", hex: "#3d3d42", stock: [2, 4, 3, 1] },
+      { name: "Kulrang", hex: "#8a8a90", stock: [3, 5, 4, 2] },
     ]),
   },
   {
@@ -289,8 +289,8 @@ export const sampleProducts: SampleProduct[] = [
     isFeatured: false,
     isActive: true,
     variants: variants(801, "MC-GL", [
-      { name: "Tutun", hex: "#6e6a63", stock: [4, 7, 5, 2] },
-      { name: "Marsala", hex: "#6d2b2b", stock: [3, 5, 4, 2] },
+      { name: "Kulrang", hex: "#8a8a90", stock: [4, 7, 5, 2] },
+      { name: "Marsala", hex: "#7d1524", stock: [3, 5, 4, 2] },
     ]),
   },
 ];

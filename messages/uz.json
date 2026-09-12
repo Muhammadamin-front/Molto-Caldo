@@ -237,5 +237,9 @@
     "email": "Email",
     "address": "Manzil",
     "addressValue": "Toshkent, Olmachi ko'chasi 25"
+  },
+  "intro": {
+    "welcome": "Molto Caldo'ga xush kelibsiz",
+    "tagline": "Kuz–Qish kolleksiyasi"
   }
 }

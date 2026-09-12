@@ -237,5 +237,9 @@
     "email": "Email",
     "address": "Адрес",
     "addressValue": "Ташкент, улица Олмачи 25"
+  },
+  "intro": {
+    "welcome": "Добро пожаловать в Molto Caldo",
+    "tagline": "Коллекция осень–зима"
   }
 }

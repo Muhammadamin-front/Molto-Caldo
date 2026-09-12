@@ -15,17 +15,17 @@ export function Atelier() {
   const t = useTranslations("atelier");
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#14100d] py-20 text-[#f4ede3]">
+    <section className="relative isolate overflow-hidden bg-[#0d0d0e] py-20 text-[#f6f6f7]">
       <KineticGrid className="absolute inset-0 -z-10 opacity-70" />
 
       <div className="mc-container text-center">
-        <p className="text-xs font-medium tracking-[0.28em] text-[#e0653c] uppercase">
+        <p className="text-xs font-medium tracking-[0.28em] text-[#ff3b4a] uppercase">
           {t("eyebrow")}
         </p>
         <h2 className="mx-auto mt-5 max-w-2xl font-display text-[clamp(1.8rem,4vw,2.8rem)] leading-tight font-semibold tracking-tight">
           {t("title")}
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#b5a396]">
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#aeaeb4]">
           {t("text")}
         </p>
 

@@ -237,5 +237,9 @@
     "email": "Email",
     "address": "Address",
     "addressValue": "Tashkent, Olmachi street 25"
+  },
+  "intro": {
+    "welcome": "Welcome to Molto Caldo",
+    "tagline": "Autumn–Winter collection"
   }
 }
