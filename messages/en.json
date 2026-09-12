@@ -244,5 +244,18 @@
   "intro": {
     "welcome": "Welcome to Molto Caldo",
     "tagline": "Autumn–Winter collection"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The address may have changed, or the piece is no longer for sale. Have a look at the rest of the catalog.",
+    "catalog": "Go to catalog",
+    "home": "Home"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "text": "We couldn't show this page. Please try again — if it keeps happening, you can place your order by phone.",
+    "retry": "Try again",
+    "home": "Home",
+    "code": "Error code: {digest}"
   }
 }

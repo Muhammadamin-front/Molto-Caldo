@@ -244,5 +244,18 @@
   "intro": {
     "welcome": "Molto Caldo'ga xush kelibsiz",
     "tagline": "Kuz–Qish kolleksiyasi"
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "text": "Manzil o'zgargan yoki mahsulot sotuvdan olingan bo'lishi mumkin. Katalogdan boshqa modellarni ko'rib chiqing.",
+    "catalog": "Katalogga o'tish",
+    "home": "Bosh sahifa"
+  },
+  "error": {
+    "title": "Kutilmagan xatolik",
+    "text": "Sahifani ko'rsatib bo'lmadi. Qaytadan urinib ko'ring — muammo takrorlansa, buyurtmani telefon orqali berishingiz mumkin.",
+    "retry": "Qaytadan urinish",
+    "home": "Bosh sahifa",
+    "code": "Xato kodi: {digest}"
   }
 }

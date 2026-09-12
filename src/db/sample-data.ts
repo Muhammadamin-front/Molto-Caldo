@@ -135,7 +135,9 @@ export const sampleProducts: SampleProduct[] = [
     isActive: true,
     variants: variants(201, "MC-CR", [
       { name: "Qizil", hex: "#c8102e", stock: [3, 6, 4, 2] },
-      { name: "Qora", hex: "#1a1a1c", stock: [2, 3, 3, 1] },
+      // XL qora — namunada ataylab tugagan: "Tugagan" belgisi va o'chirilgan
+      // o'lcham tugmasi baza ulanmasa ham ko'rinib turishi uchun.
+      { name: "Qora", hex: "#1a1a1c", stock: [2, 3, 3, 0] },
     ]),
   },
   {

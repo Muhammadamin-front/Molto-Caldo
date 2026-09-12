@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Product } from "@/lib/catalog";
 import type { Locale } from "@/i18n/routing";
@@ -13,6 +14,7 @@ export function ProductCard({
   locale: Locale;
   priority?: boolean;
 }) {
+  const t = useTranslations("product");
   const colors = Array.from(
     new Map(product.variants.map((v) => [v.colorHex, v])).values(),
   );
@@ -46,7 +48,7 @@ export function ProductCard({
         {!inStock && (
           <div className="absolute inset-0 grid place-items-center bg-[var(--bg)]/60 backdrop-blur-[1px]">
             <span className="rounded-full border border-[var(--line-strong)] bg-[var(--bg)] px-3 py-1 text-xs font-medium">
-              —
+              {t("outOfStock")}
             </span>
           </div>
         )}
