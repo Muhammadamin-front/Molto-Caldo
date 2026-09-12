@@ -259,3 +259,59 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .mc-intro { display: none; }
 }
+
+/* --------------------------------------------------------- infinite slider
+   `testimonials-6` shu klasslarga tayanadi: trek ikki nusxadan iborat va
+   yarmiga surilgach qaytadan boshlanadi — shuning uchun uzilish ko'rinmaydi.
+-------------------------------------------------------------------------- */
+
+@keyframes infinite-slider-horizontal {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes infinite-slider-vertical {
+  to { transform: translateY(-50%); }
+}
+
+.infinite-slider {
+  --slider-duration: 30s;
+  --slider-hover-duration: var(--slider-duration);
+  min-width: 0;
+  flex: 1 1 0%;
+}
+
+.infinite-slider-track {
+  display: flex;
+  width: max-content;
+  animation: infinite-slider-horizontal var(--slider-duration) linear infinite;
+  will-change: transform;
+}
+
+.infinite-slider:hover .infinite-slider-track {
+  animation-duration: var(--slider-hover-duration);
+}
+
+.infinite-slider-group {
+  display: flex;
+  flex: none;
+  gap: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.infinite-slider[data-direction="vertical"] .infinite-slider-track {
+  width: 100%;
+  flex-direction: column;
+  animation-name: infinite-slider-vertical;
+}
+
+.infinite-slider[data-direction="vertical"] .infinite-slider-group {
+  width: 100%;
+  flex-direction: column;
+  padding-right: 0;
+  padding-bottom: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infinite-slider-track { animation: none; }
+  .infinite-slider-group[aria-hidden="true"] { display: none; }
+}
