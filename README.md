@@ -48,6 +48,7 @@ src/
   app/[locale]/          sahifalar (bosh, katalog, mahsulot, savat, buyurtma)
   app/api/orders/        buyurtma qabul qilish
   app/api/variants/      savat uchun joriy narx va zaxira
+  app/admin/             boshqaruv paneli (tarjimasiz, o'z root layouti)
   app/sitemap.ts         uchta til uchun sitemap + hreflang
   app/robots.ts          savat/buyurtma/API indekslanmaydi
   components/            UI komponentlar (savat, header, footer, kartochka)
@@ -76,11 +77,30 @@ messages/                uz.json / ru.json / en.json
   olmaydi (`experimental.globalNotFound`). Mahsulot topilmaganda esa
   tarjima qilingan `[locale]/not-found.tsx` ishlaydi.
 
+## Boshqaruv paneli
+
+`/admin` — buyurtmalar ro'yxati va holatni o'zgartirish. Footer'dagi
+"Boshqaruv paneli" tugmasi orqali ham kirish mumkin.
+
+Ishlashi uchun `.env.local` da ikkitasi to'ldirilishi shart:
+
+```
+DATABASE_URL="postgresql://..."
+AUTH_SECRET="..."   # openssl rand -base64 32
+```
+
+So'ng `npm run db:push && npm run db:seed` — seed skripti boshlang'ich
+adminni yaratadi va parolni terminalga chiqaradi (`ADMIN_EMAIL` /
+`ADMIN_PASSWORD` bilan o'zgartirish mumkin). **Birinchi kirishdan keyin
+parolni almashtiring.**
+
+Ikkisidan biri bo'lmasa panel ishlamaydi va kirish sahifasi nima
+yetishmayotganini aytadi — hech qanday zaxira parol yoki kalit yo'q.
+
 ## Hali qilinmagan
 
-- **Admin panel** (buyurtmalar ro'yxati, holatni o'zgartirish). `admin_users`
-  jadvali, `bcryptjs`, `jose` va `AUTH_SECRET` tayyor — sahifaning o'zi yo'q.
-  Hozir yangi buyurtma faqat bazada turadi, hech kimga xabar ketmaydi.
+- **Telegram yoki email xabarnomasi** — yangi buyurtma kelganda hech kimga
+  xabar ketmaydi, admin panelni o'zi ochib ko'rishi kerak. Bot tokeni kerak.
 - **Click / Payme integratsiyasi** — merchant kalitlari kerak
   (`.env.example` ga qarang). Hozir har bir buyurtma amalda naqd to'lov.
 - **Telegram xabarnomasi** — bot tokeni kerak.
