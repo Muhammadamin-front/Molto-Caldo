@@ -25,6 +25,24 @@
   --font-sans: var(--font-inter), system-ui, sans-serif;
 
   --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Qazib olingan komponentlar (3d-folder, testimonials, tooltip) shadcn
+     nomlarini ishlatadi: `bg-primary`, `bg-card`, `text-muted-foreground`.
+     Ular hech qayerda e'lon qilinmagani uchun Tailwind bu klasslar uchun
+     umuman CSS chiqarmayotgan edi — papka ichidagi "Ko'rish" tugmasi fonsiz
+     va o'qilmas holda turgan edi. Nomlarni sayt palitrasiga ulaymiz, shunda
+     ular yorug'/qorong'i mavzu bilan birga o'zgaradi. */
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--ink);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--ink-mute);
+  --color-border: var(--line);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-ink);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-ink);
 }
 
 :root {

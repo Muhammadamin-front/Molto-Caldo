@@ -6,6 +6,7 @@ import {
   useEffect,
   useMemo,
   useReducer,
+  useRef,
   type ReactNode,
 } from "react";
 import { useLocale } from "next-intl";
@@ -40,6 +41,8 @@ interface State {
   lines: CartLine[];
   /** Serverdan yangilanganda biror qator o'zgargan yoki o'chirilganmi. */
   adjusted: boolean;
+  /** `localStorage` o'qilganmi. Shundan keyingina qaytib yozamiz. */
+  hydrated: boolean;
 }
 
 type Action =
@@ -78,7 +81,7 @@ function parseStored(raw: string): CartLine[] {
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "hydrate":
-      return { ...state, lines: action.lines };
+      return { ...state, lines: action.lines, hydrated: true };
 
     case "add": {
       const existing = state.lines.find(
@@ -122,7 +125,7 @@ function reducer(state: State, action: Action): State {
       };
 
     case "clear":
-      return { lines: [], adjusted: false };
+      return { ...state, lines: [], adjusted: false };
 
     case "reconcile": {
       // Savat brauzerda uzoq turadi: narx ko'tarilgan, mahsulot o'chirilgan
@@ -165,7 +168,7 @@ function reducer(state: State, action: Action): State {
         });
       }
 
-      return { lines, adjusted: state.adjusted || adjusted };
+      return { ...state, lines, adjusted: state.adjusted || adjusted };
     }
 
     case "dismissAdjusted":
@@ -190,12 +193,15 @@ const CartContext = createContext<CartValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const locale = useLocale();
-  const [state, dispatch] = useReducer(reducer, { lines: [], adjusted: false });
-  const { lines } = state;
+  const [state, dispatch] = useReducer(reducer, {
+    lines: [],
+    adjusted: false,
+    hydrated: false,
+  });
+  const { lines, hydrated } = state;
 
   // localStorage faqat brauzerda mavjud, shuning uchun birinchi renderdan
-  // keyin o'qiymiz — aks holda server va klient HTML'i mos kelmaydi. O'qib
-  // bo'lgach saqlangan narx va zaxirani serverda tekshiramiz.
+  // keyin o'qiymiz — aks holda server va klient HTML'i mos kelmaydi.
   useEffect(() => {
     let stored: CartLine[] = [];
     try {
@@ -205,11 +211,36 @@ export function CartProvider({ children }: { children: ReactNode }) {
       /* private rejim yoki buzilgan ma'lumot — savat bo'sh qoladi */
     }
 
-    if (stored.length > 0) dispatch({ type: "hydrate", lines: stored });
-    if (stored.length === 0) return;
+    // Bo'sh bo'lsa ham yuboramiz — `hydrated` shu bilan yoqiladi.
+    dispatch({ type: "hydrate", lines: stored });
+  }, []);
+
+  // Saqlashni hydratsiyadan keyin boshlaymiz. Aks holda birinchi renderdagi
+  // bo'sh savat localStorage'ga yozilib, saqlangan savatni o'chirib yuboradi.
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
+    } catch {
+      /* yozib bo'lmasa ham sahifa ishlashda davom etadi */
+    }
+  }, [lines, hydrated]);
+
+  // Joriy qatorlar — quyidagi effekt ularni `lines` ga bog'lanmasdan o'qiydi,
+  // aks holda savat har o'zgarganda serverga qayta so'rov ketardi.
+  const linesRef = useRef(lines);
+  useEffect(() => {
+    linesRef.current = lines;
+  }, [lines]);
+
+  // Saqlangan narx va zaxirani serverda tekshiramiz. Faqat hydratsiyadan
+  // keyin va til o'zgarganda — nomlar ham joriy tilga o'tadi.
+  useEffect(() => {
+    if (!hydrated) return;
+    const ids = linesRef.current.map((l) => l.variantId);
+    if (ids.length === 0) return;
 
     const controller = new AbortController();
-    const ids = stored.map((l) => l.variantId);
     void fetchVariants(ids, locale, controller.signal).then((variants) => {
       if (variants) {
         dispatch({ type: "reconcile", variants, requestedIds: ids });
@@ -217,15 +248,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
 
     return () => controller.abort();
-  }, [locale]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
-    } catch {
-      /* yozib bo'lmasa ham sahifa ishlashda davom etadi */
-    }
-  }, [lines]);
+  }, [hydrated, locale]);
 
   const value = useMemo<CartValue>(() => {
     return {
