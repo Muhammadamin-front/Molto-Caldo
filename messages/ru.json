@@ -137,7 +137,12 @@
     "pageTitle": "Коллекции",
     "pageLead": "Нажмите на папку — внутри откроются модели.",
     "pieces": "моделей",
-    "hover": "Открыть"
+    "hover": "Открыть",
+    "orbitTitle": "Вращающаяся галерея",
+    "orbitFlat": "Плоско",
+    "orbitTilt": "Наклон",
+    "orbitRing": "Кольцо",
+    "orbitGallery": "Галерея"
   },
   "atelier": {
     "eyebrow": "Ателье",

@@ -137,7 +137,12 @@
     "pageTitle": "Collections",
     "pageLead": "Open a folder to reveal the pieces inside.",
     "pieces": "pieces",
-    "hover": "Open"
+    "hover": "Open",
+    "orbitTitle": "Orbiting gallery",
+    "orbitFlat": "Flat",
+    "orbitTilt": "Tilt",
+    "orbitRing": "Ring",
+    "orbitGallery": "Gallery"
   },
   "atelier": {
     "eyebrow": "Atelier",

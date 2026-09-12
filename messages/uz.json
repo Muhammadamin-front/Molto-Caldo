@@ -137,7 +137,12 @@
     "pageTitle": "Kolleksiyalar",
     "pageLead": "Papkani bosing — ichidagi modellar ochiladi.",
     "pieces": "ta model",
-    "hover": "Ochish"
+    "hover": "Ochish",
+    "orbitTitle": "Aylanadigan galereya",
+    "orbitFlat": "Tekis",
+    "orbitTilt": "Egilgan",
+    "orbitRing": "Halqa",
+    "orbitGallery": "Galereya"
   },
   "atelier": {
     "eyebrow": "Atelye",
