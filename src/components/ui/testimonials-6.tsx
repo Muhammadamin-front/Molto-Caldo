@@ -12,79 +12,49 @@ type Testimonial = {
 
 const testimonials: Testimonial[] = [
   {
-    quote:
-      "Efferd is so polished I might just retire and become a full-time potato farmer. The ecosystem is in safe hands.",
-    image: "https://cdn.21st.dev/assets/mirror/51/513d06f542692036ff0bb17938f04b3efd60567ba2cae08049469d21f18e0524.jpg",
-    name: "Shadcn",
-    role: "Founder",
-    company: "Shadcn UI",
+    quote: "Paltoni qishning eng sovuq kunida kiydim — shamol o'tmadi.",
+    image: "/people/dilnoza.jpg",
+    name: "Dilnoza A.",
+    role: "Toshkent",
+    company: "Molto Caldo",
   },
   {
-    quote:
-      "Efferd is why I still have hair. No more pulling it out over centering divs or fighting with CSS grid.",
-    image: "https://cdn.21st.dev/assets/mirror/fa/fa600e6e3f008d0a54390646f123fcd1c952304522185e7b85837595eacb74db.jpg",
-    name: "Guillermo Rauch",
-    role: "CEO",
-    company: "Vercel",
-  },
-
-  {
-    quote:
-      "I tried to buy Efferd but they wouldn't sell. So I just bought Twitter instead to complain about it.",
-    image: "https://unavatar.io/x/elonmusk",
-    name: "Elon Musk",
-    role: "CEO",
-    company: "X.com",
+    quote: "Ikki hafta kiyib yurdim, hech qayeri cho'zilmadi.",
+    image: "/people/javohir.jpg",
+    name: "Javohir T.",
+    role: "Samarqand",
+    company: "Molto Caldo",
   },
   {
-    quote:
-      "We just acquired Efferd for 3 gazillion dollars. We're calling it iEfferd. It's our best product yet.",
-    image: "https://unavatar.io/x/tim_cook",
-    name: "Tim Cook",
-    role: "CEO",
-    company: "Apple",
+    quote: "O'lcham kichik keldi, almashtirishdi. Bahs bo'lmadi.",
+    image: "/people/kamola.jpg",
+    name: "Kamola N.",
+    role: "Buxoro",
+    company: "Molto Caldo",
   },
   {
-    quote:
-      "I'm considering shipping Efferd components with Prime delivery. 2-day shipping on beautiful UIs? Done.",
-    image: "https://unavatar.io/x/JeffBezos",
-    name: "Jeff Bezos",
-    role: "Founder",
-    company: "Amazon",
+    quote: "Sviter merinosdan — teriga qichishmaydi.",
+    image: "/people/aziz.jpg",
+    name: "Aziz M.",
+    role: "Toshkent",
+    company: "Molto Caldo",
   },
   {
-    quote:
-      "We're rewriting OpenAI's entire frontend in Efferd. The AGI told us it's the only logical choice.",
-    image: "https://unavatar.io/x/sama",
-    name: "Sam Altman",
-    role: "CEO",
-    company: "OpenAI",
+    quote: "Buyurtmadan keyin ikki kunda yetib keldi.",
+    image: "/people/nodira.jpg",
+    name: "Nodira S.",
+    role: "Farg'ona",
+    company: "Molto Caldo",
   },
   {
-    quote:
-      "We processed 100 petabytes of data to find the perfect UI library. The algorithm returned 'Efferd' with 99.9% confidence.",
-    image: "https://unavatar.io/x/sundarpichai",
-    name: "Sundar Pichai",
-    role: "CEO",
-    company: "Google",
-  },
-  {
-    quote:
-      "Our links might 404 sometimes, but thanks to Efferd, at least the 404 page looks absolutely stunning.",
-    image: "https://cdn.21st.dev/assets/mirror/f4/f4913839b819c1ff0504a29fcaa228f16bfafc248be78282d14556dabcc1e131.jpg",
-    name: "Steven Tey",
-    role: "Founder",
-    company: "Dub.co",
-  },
-  {
-    quote:
-      "It's so fast, I finished my UI sprint before my next meeting even started. Open source for the win.",
-    image: "https://unavatar.io/x/peer_rich",
-    name: "Peer Richelsen",
-    role: "Co-Founder",
-    company: "Cal.com",
+    quote: "Sifati bir necha mavsumga yetadi. Shunga arziydi.",
+    image: "/people/sardor.jpg",
+    name: "Sardor R.",
+    role: "Namangan",
+    company: "Molto Caldo",
   },
 ];
+
 
 export type { Testimonial };
 

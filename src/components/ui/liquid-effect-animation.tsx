@@ -18,7 +18,7 @@ export function LiquidEffectAnimation() {
       const canvas = document.getElementById('liquid-canvas');
       if (canvas) {
         const app = LiquidBackground(canvas);
-        app.loadImage('https://cdn.21st.dev/assets/mirror/95/95e97d22cb2df434400243c60803fb89a5e25a46dad13c4a6d5cb27246173cf0.png');
+        app.loadImage('/textures/liquid.png');
         app.liquidPlane.material.metalness = 0.75;
         app.liquidPlane.material.roughness = 0.25;
         app.liquidPlane.uniforms.displacementScale.value = 5;

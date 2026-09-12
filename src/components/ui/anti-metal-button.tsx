@@ -73,7 +73,7 @@ export const AntiMetalButton = React.forwardRef<
     },
     ref,
   ) => {
-    const content = label ?? children ?? "Book a demo";
+    const content = label ?? children ?? "Molto Caldo";
 
     return (
       <button
