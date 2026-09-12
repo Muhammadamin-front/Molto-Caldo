@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Molto Caldo — internet do'kon
 
-## Getting Started
+Issiq ustki kiyim brendi uchun uch tilli (o'zbek / rus / ingliz) internet do'kon.
 
-First, run the development server:
+## Texnologiyalar
+
+| Qatlam | Tanlov |
+| --- | --- |
+| Framework | Next.js 16 (App Router, React 19) |
+| Uslub | Tailwind CSS 4 + CSS o'zgaruvchilari (yorug'/qorong'i mavzu) |
+| Tillar | next-intl — `uz` (asosiy), `ru`, `en` |
+| Baza | Postgres + Drizzle ORM |
+| Animatsiya | IntersectionObserver reveal + CSS, `cubic-bezier(.16,1,.3,1)` |
+| Hosting | Vercel |
+
+## Ishga tushirish
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`http://localhost:3000` ochiladi. **Baza ulanmagan bo'lsa ham ishlaydi** —
+`src/db/sample-data.ts` dagi namuna katalog ko'rsatiladi.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Bazani ulash
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Neon (https://neon.tech) yoki Vercel Postgres'da bepul baza yarating.
+2. `.env.local` ga ulanish satrini yozing:
 
-## Learn More
+```
+DATABASE_URL="postgresql://..."
+```
 
-To learn more about Next.js, take a look at the following resources:
+3. Jadvallarni yarating va to'ldiring:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run db:push
+npm run db:seed
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`DATABASE_URL` to'ldirilgan zahoti sayt avtomatik bazadan o'qiy boshlaydi.
 
-## Deploy on Vercel
+## Tuzilma
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+  app/[locale]/          sahifalar (bosh, katalog, mahsulot, savat, buyurtma)
+  app/api/orders/        buyurtma qabul qilish
+  components/            UI komponentlar (savat, header, footer, kartochka)
+  db/                    Drizzle sxemasi, namuna ma'lumot, seed
+  i18n/                  next-intl yo'nalishlari
+  lib/                   katalog so'rovlari, buyurtma mantiqi, yordamchilar
+messages/                uz.json / ru.json / en.json
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Muhim qarorlar
+
+- **Narxlar tiyinda saqlanadi** (`1 so'm = 100 tiyin`) — kasr sonlardagi
+  yaxlitlash xatolarini oldini olish uchun.
+- **Buyurtma jami har doim serverda qayta hisoblanadi** — klient yuborgan
+  summaga ishonilmaydi.
+- **Buyurtma qatorlari denormallashtirilgan** — mahsulot keyin o'zgartirilsa
+  ham eski buyurtma o'zgarmaydi.
+- Savat `localStorage` da, brauzerda saqlanadi.
+
+## Hali qilinmagan
+
+- Click / Payme integratsiyasi — merchant kalitlari kerak (`.env.example` ga qarang)
+- Admin panel (buyurtmalar ro'yxati, mahsulot qo'shish)
+- Haqiqiy mahsulot fotosuratlari — hozir `public/products/` da vaqtinchalik
+  mato namunalari turibdi

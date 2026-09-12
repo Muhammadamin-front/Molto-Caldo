@@ -1,0 +1,211 @@
+import "server-only";
+import { eq, asc, desc, and } from "drizzle-orm";
+import type { Locale } from "@/i18n/routing";
+import { sampleCategories, sampleProducts } from "@/db/sample-data";
+
+/* -------------------------------------------------------------- turlar */
+
+export interface Variant {
+  id: number;
+  size: string;
+  colorName: string;
+  colorHex: string;
+  sku: string;
+  stock: number;
+}
+
+export interface Product {
+  id: number;
+  slug: string;
+  categorySlug: string;
+  name: string;
+  description: string;
+  material: string;
+  price: number;
+  compareAtPrice: number | null;
+  images: string[];
+  isFeatured: boolean;
+  variants: Variant[];
+}
+
+export interface Category {
+  id: number;
+  slug: string;
+  name: string;
+}
+
+export type SortKey = "new" | "price-asc" | "price-desc";
+
+const hasDatabase = Boolean(process.env.DATABASE_URL);
+
+function suffix(locale: Locale) {
+  return locale === "ru" ? "Ru" : locale === "en" ? "En" : "Uz";
+}
+
+/* ---------------------------------------------- namuna ma'lumot yo'nalishi */
+
+function sampleToProduct(
+  p: (typeof sampleProducts)[number],
+  locale: Locale,
+): Product {
+  const s = suffix(locale);
+  return {
+    id: p.id,
+    slug: p.slug,
+    categorySlug: p.categorySlug,
+    name: p[`name${s}` as "nameUz"],
+    description: p[`description${s}` as "descriptionUz"],
+    material: p[`material${s}` as "materialUz"],
+    price: p.price,
+    compareAtPrice: p.compareAtPrice,
+    images: p.images,
+    isFeatured: p.isFeatured,
+    variants: p.variants,
+  };
+}
+
+function sortProducts(list: Product[], sort: SortKey) {
+  const out = [...list];
+  if (sort === "price-asc") out.sort((a, b) => a.price - b.price);
+  else if (sort === "price-desc") out.sort((a, b) => b.price - a.price);
+  else out.sort((a, b) => b.id - a.id);
+  return out;
+}
+
+/* ---------------------------------------------------------------- API */
+
+export async function getCategories(locale: Locale): Promise<Category[]> {
+  if (!hasDatabase) {
+    const s = suffix(locale);
+    return sampleCategories
+      .slice()
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((c) => ({
+        id: c.id,
+        slug: c.slug,
+        name: c[`name${s}` as "nameUz"],
+      }));
+  }
+
+  const { db, schema } = await import("@/db");
+  const rows = await db
+    .select()
+    .from(schema.categories)
+    .orderBy(asc(schema.categories.sortOrder));
+
+  const s = suffix(locale);
+  return rows.map((c) => ({
+    id: c.id,
+    slug: c.slug,
+    name: c[`name${s}` as "nameUz"],
+  }));
+}
+
+export async function getProducts(
+  locale: Locale,
+  options: { category?: string; sort?: SortKey; limit?: number } = {},
+): Promise<Product[]> {
+  const { category, sort = "new", limit } = options;
+
+  if (!hasDatabase) {
+    let list = sampleProducts
+      .filter((p) => p.isActive)
+      .filter((p) => !category || p.categorySlug === category)
+      .map((p) => sampleToProduct(p, locale));
+    list = sortProducts(list, sort);
+    return typeof limit === "number" ? list.slice(0, limit) : list;
+  }
+
+  const { db, schema } = await import("@/db");
+  const s = suffix(locale);
+
+  const rows = await db.query.products.findMany({
+    where: category
+      ? and(
+          eq(schema.products.isActive, true),
+          eq(
+            schema.products.categoryId,
+            db
+              .select({ id: schema.categories.id })
+              .from(schema.categories)
+              .where(eq(schema.categories.slug, category))
+              .limit(1),
+          ),
+        )
+      : eq(schema.products.isActive, true),
+    with: { variants: true, category: true },
+    orderBy:
+      sort === "price-asc"
+        ? asc(schema.products.price)
+        : sort === "price-desc"
+          ? desc(schema.products.price)
+          : desc(schema.products.createdAt),
+    limit,
+  });
+
+  return rows.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    categorySlug: p.category.slug,
+    name: p[`name${s}` as "nameUz"],
+    description: p[`description${s}` as "descriptionUz"],
+    material: p[`material${s}` as "materialUz"],
+    price: p.price,
+    compareAtPrice: p.compareAtPrice,
+    images: p.images,
+    isFeatured: p.isFeatured,
+    variants: p.variants,
+  }));
+}
+
+export async function getFeaturedProducts(locale: Locale, limit = 4) {
+  const all = await getProducts(locale);
+  const featured = all.filter((p) => p.isFeatured);
+  return (featured.length > 0 ? featured : all).slice(0, limit);
+}
+
+export async function getProductBySlug(
+  locale: Locale,
+  slug: string,
+): Promise<Product | null> {
+  if (!hasDatabase) {
+    const found = sampleProducts.find((p) => p.slug === slug && p.isActive);
+    return found ? sampleToProduct(found, locale) : null;
+  }
+
+  const { db, schema } = await import("@/db");
+  const s = suffix(locale);
+
+  const p = await db.query.products.findFirst({
+    where: eq(schema.products.slug, slug),
+    with: { variants: true, category: true },
+  });
+
+  if (!p || !p.isActive) return null;
+
+  return {
+    id: p.id,
+    slug: p.slug,
+    categorySlug: p.category.slug,
+    name: p[`name${s}` as "nameUz"],
+    description: p[`description${s}` as "descriptionUz"],
+    material: p[`material${s}` as "materialUz"],
+    price: p.price,
+    compareAtPrice: p.compareAtPrice,
+    images: p.images,
+    isFeatured: p.isFeatured,
+    variants: p.variants,
+  };
+}
+
+export async function getAllProductSlugs(): Promise<string[]> {
+  if (!hasDatabase) {
+    return sampleProducts.filter((p) => p.isActive).map((p) => p.slug);
+  }
+  const { db, schema } = await import("@/db");
+  const rows = await db
+    .select({ slug: schema.products.slug })
+    .from(schema.products)
+    .where(eq(schema.products.isActive, true));
+  return rows.map((r) => r.slug);
+}

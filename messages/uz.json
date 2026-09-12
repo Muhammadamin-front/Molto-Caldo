@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "title": "Molto Caldo — issiq ustki kiyim",
+    "description": "Italyan ruhidagi ustki kiyim: palto, kurtka va jun trikotaj. O'zbekiston bo'ylab yetkazib berish.",
+    "catalogTitle": "Katalog — Molto Caldo",
+    "cartTitle": "Savat — Molto Caldo",
+    "checkoutTitle": "Buyurtma rasmiylashtirish — Molto Caldo"
+  },
+  "nav": {
+    "catalog": "Katalog",
+    "about": "Brend haqida",
+    "delivery": "Yetkazib berish",
+    "contact": "Aloqa",
+    "cart": "Savat",
+    "search": "Qidirish",
+    "menu": "Menyu",
+    "theme": "Mavzuni almashtirish"
+  },
+  "home": {
+    "eyebrow": "Kuz–Qish kolleksiyasi",
+    "heroTitle": "Issiqlik — bu did masalasi",
+    "heroLead": "Italyan an'analaridan ilhomlangan ustki kiyim. Tabiiy jun, puxta tikuv va yillar davomida shaklini yo'qotmaydigan qirqim.",
+    "shopNow": "Kolleksiyani ko'rish",
+    "ourStory": "Brend haqida",
+    "featured": "Tanlangan modellar",
+    "featuredLead": "Ushbu mavsumning eng ko'p so'ralgan modellari.",
+    "viewAll": "Barchasini ko'rish",
+    "categories": "Kategoriyalar",
+    "valuesTitle": "Nega Molto Caldo",
+    "value1Title": "Tabiiy jun",
+    "value1Text": "Merinos va alpaka aralashmasi — yengil, lekin chinakam issiq.",
+    "value2Title": "Puxta tikuv",
+    "value2Text": "Har bir chok qo'lda tekshiriladi, astar mustahkam biriktiriladi.",
+    "value3Title": "Tez yetkazish",
+    "value3Text": "Toshkent bo'ylab 1–2 kun, viloyatlarga 2–4 kun ichida.",
+    "value4Title": "Almashtirish",
+    "value4Text": "O'lcham to'g'ri kelmasa, 14 kun ichida bepul almashtiramiz."
+  },
+  "catalog": {
+    "title": "Katalog",
+    "all": "Barchasi",
+    "empty": "Bu bo'limda hozircha mahsulot yo'q.",
+    "sort": "Saralash",
+    "sortNew": "Yangi kelganlar",
+    "sortPriceAsc": "Narx: arzondan",
+    "sortPriceDesc": "Narx: qimmatdan",
+    "results": "{count} ta mahsulot"
+  },
+  "product": {
+    "size": "O'lcham",
+    "color": "Rang",
+    "sizeGuide": "O'lchamlar jadvali",
+    "addToCart": "Savatga qo'shish",
+    "added": "Savatga qo'shildi",
+    "outOfStock": "Tugagan",
+    "selectSize": "O'lchamni tanlang",
+    "selectColor": "Rangni tanlang",
+    "material": "Material va parvarish",
+    "description": "Tavsif",
+    "inStock": "Sotuvda bor",
+    "lowStock": "Oxirgi {count} ta qoldi",
+    "related": "O'xshash modellar"
+  },
+  "cart": {
+    "title": "Savat",
+    "empty": "Savatingiz bo'sh.",
+    "emptyAction": "Katalogga o'tish",
+    "item": "Mahsulot",
+    "quantity": "Soni",
+    "price": "Narx",
+    "remove": "O'chirish",
+    "subtotal": "Mahsulotlar",
+    "delivery": "Yetkazib berish",
+    "deliveryFree": "Bepul",
+    "total": "Jami",
+    "checkout": "Buyurtma berish",
+    "continue": "Xaridni davom ettirish",
+    "freeShippingNote": "{amount} dan yuqori buyurtmalarga yetkazish bepul."
+  },
+  "checkout": {
+    "title": "Buyurtma rasmiylashtirish",
+    "contactSection": "Aloqa ma'lumotlari",
+    "deliverySection": "Yetkazib berish",
+    "paymentSection": "To'lov usuli",
+    "name": "Ism va familiya",
+    "phone": "Telefon raqam",
+    "city": "Shahar / viloyat",
+    "address": "Manzil",
+    "note": "Izoh (ixtiyoriy)",
+    "notePlaceholder": "Qo'ng'iroq qilish vaqti, mo'ljal va hokazo",
+    "payClick": "Click orqali",
+    "payPayme": "Payme orqali",
+    "payCash": "Yetkazib berilganda naqd",
+    "submit": "Buyurtmani tasdiqlash",
+    "submitting": "Yuborilmoqda...",
+    "orderSummary": "Buyurtma tarkibi",
+    "required": "Bu maydon to'ldirilishi shart",
+    "invalidPhone": "Telefon raqamni to'g'ri kiriting",
+    "error": "Buyurtmani yuborishda xatolik yuz berdi. Qaytadan urinib ko'ring."
+  },
+  "success": {
+    "title": "Buyurtmangiz qabul qilindi",
+    "text": "Buyurtma raqami: {number}. Menejerimiz tez orada siz bilan bog'lanadi.",
+    "home": "Bosh sahifaga"
+  },
+  "footer": {
+    "tagline": "Italyan ruhidagi issiq ustki kiyim.",
+    "shop": "Do'kon",
+    "info": "Ma'lumot",
+    "contacts": "Aloqa",
+    "rights": "Barcha huquqlar himoyalangan",
+    "sizeGuide": "O'lchamlar jadvali",
+    "returns": "Qaytarish va almashtirish",
+    "payment": "To'lov usullari"
+  },
+  "common": {
+    "currency": "so'm",
+    "from": "dan",
+    "loading": "Yuklanmoqda...",
+    "back": "Orqaga"
+  }
+}

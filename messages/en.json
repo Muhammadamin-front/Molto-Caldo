@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "title": "Molto Caldo — warm outerwear",
+    "description": "Italian-spirited outerwear: coats, jackets and wool knitwear. Delivery across Uzbekistan.",
+    "catalogTitle": "Catalog — Molto Caldo",
+    "cartTitle": "Cart — Molto Caldo",
+    "checkoutTitle": "Checkout — Molto Caldo"
+  },
+  "nav": {
+    "catalog": "Catalog",
+    "about": "About",
+    "delivery": "Delivery",
+    "contact": "Contact",
+    "cart": "Cart",
+    "search": "Search",
+    "menu": "Menu",
+    "theme": "Toggle theme"
+  },
+  "home": {
+    "eyebrow": "Autumn–Winter collection",
+    "heroTitle": "Warmth is a matter of taste",
+    "heroLead": "Outerwear drawn from Italian tailoring traditions. Natural wool, careful stitching and a cut that holds its shape for years.",
+    "shopNow": "Shop the collection",
+    "ourStory": "About the brand",
+    "featured": "Featured pieces",
+    "featuredLead": "The most requested models of the season.",
+    "viewAll": "View all",
+    "categories": "Categories",
+    "valuesTitle": "Why Molto Caldo",
+    "value1Title": "Natural wool",
+    "value1Text": "A merino and alpaca blend — light, yet genuinely warm.",
+    "value2Title": "Careful tailoring",
+    "value2Text": "Every seam is checked by hand and the lining is secured properly.",
+    "value3Title": "Fast delivery",
+    "value3Text": "1–2 days across Tashkent, 2–4 days to the regions.",
+    "value4Title": "Free exchange",
+    "value4Text": "If the size does not fit, we exchange it free within 14 days."
+  },
+  "catalog": {
+    "title": "Catalog",
+    "all": "All",
+    "empty": "No products in this section yet.",
+    "sort": "Sort",
+    "sortNew": "Newest",
+    "sortPriceAsc": "Price: low to high",
+    "sortPriceDesc": "Price: high to low",
+    "results": "{count} products"
+  },
+  "product": {
+    "size": "Size",
+    "color": "Colour",
+    "sizeGuide": "Size guide",
+    "addToCart": "Add to cart",
+    "added": "Added to cart",
+    "outOfStock": "Out of stock",
+    "selectSize": "Select a size",
+    "selectColor": "Select a colour",
+    "material": "Material and care",
+    "description": "Description",
+    "inStock": "In stock",
+    "lowStock": "Only {count} left",
+    "related": "You may also like"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "emptyAction": "Go to catalog",
+    "item": "Product",
+    "quantity": "Qty",
+    "price": "Price",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "delivery": "Delivery",
+    "deliveryFree": "Free",
+    "total": "Total",
+    "checkout": "Checkout",
+    "continue": "Continue shopping",
+    "freeShippingNote": "Free delivery on orders over {amount}."
+  },
+  "checkout": {
+    "title": "Checkout",
+    "contactSection": "Contact details",
+    "deliverySection": "Delivery",
+    "paymentSection": "Payment method",
+    "name": "Full name",
+    "phone": "Phone number",
+    "city": "City / region",
+    "address": "Address",
+    "note": "Note (optional)",
+    "notePlaceholder": "Best time to call, landmark, etc.",
+    "payClick": "Pay with Click",
+    "payPayme": "Pay with Payme",
+    "payCash": "Cash on delivery",
+    "submit": "Place order",
+    "submitting": "Sending...",
+    "orderSummary": "Order summary",
+    "required": "This field is required",
+    "invalidPhone": "Enter a valid phone number",
+    "error": "Could not place the order. Please try again."
+  },
+  "success": {
+    "title": "Order received",
+    "text": "Order number: {number}. Our manager will contact you shortly.",
+    "home": "Back to home"
+  },
+  "footer": {
+    "tagline": "Warm, Italian-spirited outerwear.",
+    "shop": "Shop",
+    "info": "Information",
+    "contacts": "Contact",
+    "rights": "All rights reserved",
+    "sizeGuide": "Size guide",
+    "returns": "Returns and exchange",
+    "payment": "Payment methods"
+  },
+  "common": {
+    "currency": "UZS",
+    "from": "from",
+    "loading": "Loading...",
+    "back": "Back"
+  }
+}
