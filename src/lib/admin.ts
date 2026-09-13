@@ -50,11 +50,20 @@ export interface AdminOrder {
   items: AdminOrderItem[];
 }
 
+const BCRYPT_COST = 10;
+
 /**
- * Parolni tekshiradi. Email topilmasa ham bcrypt ishlatiladi — javob vaqti
- * bir xil qolsin, aks holda qaysi email ro'yxatda borligini payqash mumkin.
+ * Email topilmaganda solishtiriladigan hash. Haqiqiy, to'g'ri formatdagi hash
+ * bo'lishi shart: ilgari bu yerda 66 belgili soxta satr turgan edi va bcrypt
+ * uni hisoblamasdan 0 ms da rad etardi (haqiqiy hash ~80 ms). Javob vaqtiga
+ * qarab qaysi email ro'yxatda borligini bilib olish mumkin edi.
+ * Xarajat (`BCRYPT_COST`) haqiqiy parollar bilan bir xil bo'lishi kerak.
  */
-const DUMMY_HASH = "$2b$10$invalidinvalidinvalidinvalidinvalidinvalidinvalidinvalidinv";
+let dummyHash: string | null = null;
+async function getDummyHash() {
+  dummyHash ??= await bcrypt.hash(crypto.randomUUID(), BCRYPT_COST);
+  return dummyHash;
+}
 
 export async function verifyAdmin(
   email: string,
@@ -69,11 +78,42 @@ export async function verifyAdmin(
 
   const matches = await bcrypt.compare(
     password,
-    admin?.passwordHash ?? DUMMY_HASH,
+    admin?.passwordHash ?? (await getDummyHash()),
   );
   if (!admin || !matches) return null;
 
   return { id: admin.id, email: admin.email };
+}
+
+export const MIN_PASSWORD_LENGTH = 12;
+
+export type PasswordChangeResult = "ok" | "wrong_current" | "too_short" | "no_database";
+
+/** Joriy parol to'g'ri bo'lsagina yangisini yozadi. */
+export async function changeAdminPassword(
+  adminId: number,
+  currentPassword: string,
+  nextPassword: string,
+): Promise<PasswordChangeResult> {
+  if (!process.env.DATABASE_URL) return "no_database";
+  if (nextPassword.length < MIN_PASSWORD_LENGTH) return "too_short";
+
+  const { db, schema } = await import("@/db");
+  const admin = await db.query.adminUsers.findFirst({
+    where: eq(schema.adminUsers.id, adminId),
+  });
+  if (!admin || !(await bcrypt.compare(currentPassword, admin.passwordHash))) {
+    return "wrong_current";
+  }
+
+  await db
+    .update(schema.adminUsers)
+    .set({
+      passwordHash: await bcrypt.hash(nextPassword, BCRYPT_COST),
+      passwordChangedAt: new Date(),
+    })
+    .where(eq(schema.adminUsers.id, adminId));
+  return "ok";
 }
 
 export async function listOrders(limit = 100): Promise<AdminOrder[]> {

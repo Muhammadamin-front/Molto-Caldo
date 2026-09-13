@@ -180,11 +180,33 @@ export const adminUsers = pgTable(
     id: serial("id").primaryKey(),
     email: text("email").notNull(),
     passwordHash: text("password_hash").notNull(),
+    // Undan oldin berilgan sessiyalar yaroqsiz — parol almashganda eski
+    // (ehtimol o'g'irlangan) sessiyalar ham darhol yopiladi.
+    passwordChangedAt: timestamp("password_changed_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
   },
   (t) => [uniqueIndex("admin_email_idx").on(t.email)],
+);
+
+/* ---------------------------------------------------------- rate limits */
+
+// Har bir urinish bitta qator: kalit (masalan `login:ip:1.2.3.4`) va vaqt.
+// Serverless'da xotiradagi hisoblagich har instansda alohida bo'lib qoladi,
+// shuning uchun limitlar bazada saqlanadi — barcha instanslar bitta hisobni ko'radi.
+export const rateLimitHits = pgTable(
+  "rate_limit_hits",
+  {
+    id: serial("id").primaryKey(),
+    key: text("key").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("rate_limit_key_time_idx").on(t.key, t.createdAt)],
 );
 
 /* ------------------------------------------------------------ relations */

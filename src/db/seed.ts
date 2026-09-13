@@ -5,10 +5,42 @@
  */
 import "dotenv/config";
 import bcrypt from "bcryptjs";
+import { sql } from "drizzle-orm";
 import { db, schema } from "./index";
 import { sampleCategories, sampleProducts } from "./sample-data";
 
+const MIN_PASSWORD_LENGTH = 12;
+
 async function main() {
+  // Hech narsani o'chirishdan OLDIN tekshiramiz — yarim yo'lda to'xtab qolmasin.
+  //
+  // Ilgari `ADMIN_PASSWORD` bo'lmasa "moltocaldo" ishlatilardi. Repo ochiq,
+  // ya'ni bu parol internetda turgan edi: prod bazada seed shunday ishga
+  // tushsa, har kim panelga kirib mijozlarning telefon va manzillarini ko'rardi.
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const password = process.env.ADMIN_PASSWORD ?? "";
+  if (!email || password.length < MIN_PASSWORD_LENGTH) {
+    console.error(
+      `ADMIN_EMAIL va kamida ${MIN_PASSWORD_LENGTH} belgili ADMIN_PASSWORD kerak.\n` +
+        `  ADMIN_EMAIL="siz@domen.uz" ADMIN_PASSWORD="..." npm run db:seed`,
+    );
+    process.exit(1);
+  }
+
+  // Seed katalogni va BARCHA buyurtmalarni o'chirib qayta yozadi. Ishga
+  // tushgan do'konda bu haqiqiy buyurtmalarni yo'q qiladi — ataylab so'ralmasa
+  // ishlamaydi.
+  const [{ n: existingOrders }] = await db
+    .select({ n: sql<number>`count(*)::int` })
+    .from(schema.orders);
+  if (existingOrders > 0 && process.env.SEED_FORCE !== "1") {
+    console.error(
+      `Bazada ${existingOrders} ta buyurtma bor — seed ularni o'chirib yuboradi.\n` +
+        `Rostdan shuni xohlasangiz: SEED_FORCE=1 npm run db:seed`,
+    );
+    process.exit(1);
+  }
+
   console.log("Seeding...");
 
   // Takror ishga tushirishda dublikat bo'lmasligi uchun tozalaymiz.
@@ -72,9 +104,7 @@ async function main() {
     );
   }
 
-  // Boshlang'ich admin. Parolni birinchi kirishdan keyin almashtiring.
-  const email = process.env.ADMIN_EMAIL ?? "admin@moltocaldo.uz";
-  const password = process.env.ADMIN_PASSWORD ?? "moltocaldo";
+  // Boshlang'ich admin. Mavjud bo'lsa paroli o'zgartirilmaydi.
   await db
     .insert(schema.adminUsers)
     .values({ email, passwordHash: await bcrypt.hash(password, 10) })
@@ -83,7 +113,8 @@ async function main() {
   console.log(
     `Done: ${sampleCategories.length} categories, ${sampleProducts.length} products.`,
   );
-  console.log(`Admin: ${email} / ${password}`);
+  // Parol terminal tarixiga va CI loglariga tushmasin.
+  console.log(`Admin: ${email}`);
   process.exit(0);
 }
 

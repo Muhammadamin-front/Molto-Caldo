@@ -16,9 +16,17 @@ const globalForDb = globalThis as unknown as {
   moltoCaldoSql?: ReturnType<typeof postgres>;
 };
 
+// Serverless muhitda (Vercel) har bir instans o'z pulini ochadi, shuning
+// uchun u yerda `DATABASE_POOL_MAX=1..3` qo'yish tavsiya qilinadi — aks holda
+// yuklama oshganda Postgres ulanishlar limitiga tez yetib boriladi.
+const poolMax = Number.parseInt(process.env.DATABASE_POOL_MAX ?? "", 10);
+
 const sql =
   globalForDb.moltoCaldoSql ??
-  postgres(connectionString, { max: 10, prepare: false });
+  postgres(connectionString, {
+    max: Number.isInteger(poolMax) && poolMax > 0 ? poolMax : 10,
+    prepare: false,
+  });
 
 if (process.env.NODE_ENV !== "production") {
   globalForDb.moltoCaldoSql = sql;

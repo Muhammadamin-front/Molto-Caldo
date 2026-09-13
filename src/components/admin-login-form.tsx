@@ -45,8 +45,13 @@ export function AdminLoginForm() {
       </label>
 
       {state.error && (
-        <p className="mt-4 rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-3.5 py-2.5 text-xs leading-relaxed text-[var(--accent)]">
-          {MESSAGE[state.error]}
+        <p
+          role="alert"
+          className="mt-4 rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-3.5 py-2.5 text-xs leading-relaxed text-[var(--accent)]"
+        >
+          {state.error === "rate_limited"
+            ? `Juda ko'p xato urinish. ${state.retryMinutes ?? 15} daqiqadan keyin qayta urinib ko'ring.`
+            : MESSAGE[state.error]}
         </p>
       )}
 

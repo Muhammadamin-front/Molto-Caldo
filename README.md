@@ -89,10 +89,24 @@ DATABASE_URL="postgresql://..."
 AUTH_SECRET="..."   # openssl rand -base64 32
 ```
 
-So'ng `npm run db:push && npm run db:seed` — seed skripti boshlang'ich
-adminni yaratadi va parolni terminalga chiqaradi (`ADMIN_EMAIL` /
-`ADMIN_PASSWORD` bilan o'zgartirish mumkin). **Birinchi kirishdan keyin
-parolni almashtiring.**
+So'ng:
+
+```bash
+npm run db:push
+ADMIN_EMAIL="siz@domen.uz" ADMIN_PASSWORD="kamida-12-belgi" npm run db:seed
+```
+
+Seed ikkisini ham **talab qiladi** — standart parol yo'q (repo ochiq, standart
+parol internetda turgan bo'lardi). Parol terminalga chiqarilmaydi.
+
+Seed katalogni va barcha buyurtmalarni qayta yozadi, shuning uchun bazada
+buyurtma bo'lsa ishlashdan bosh tortadi (`SEED_FORCE=1` bilan majburlash
+mumkin — ishga tushgan do'konda buni qilmang).
+
+Panel himoyasi: email bo'yicha 15 daqiqada 5 ta, IP bo'yicha 10 ta xato
+urinishdan keyin kirish bloklanadi (hisob bazada, barcha serverless
+instanslar uchun umumiy). Panelda parolni almashtirish mumkin — almashgan
+zahoti boshqa qurilmalardagi sessiyalar yopiladi.
 
 Ikkisidan biri bo'lmasa panel ishlamaydi va kirish sahifasi nima
 yetishmayotganini aytadi — hech qanday zaxira parol yoki kalit yo'q.

@@ -1,6 +1,7 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
+import { eq } from "drizzle-orm";
 
 const COOKIE = "mc_admin";
 const MAX_AGE = 60 * 60 * 8; // 8 soat
@@ -58,16 +59,34 @@ export async function getSession(): Promise<AdminSession | null> {
   const token = store.get(COOKIE)?.value;
   if (!token) return null;
 
+  let id: number;
+  let email: string;
+  let issuedAt: number;
   try {
     const { payload } = await jwtVerify(token, key);
-    const id = Number(payload.sub);
-    const email = typeof payload.email === "string" ? payload.email : "";
+    id = Number(payload.sub);
+    email = typeof payload.email === "string" ? payload.email : "";
+    issuedAt = typeof payload.iat === "number" ? payload.iat : 0;
     if (!Number.isInteger(id) || !email) return null;
-    return { id, email };
   } catch {
     // Muddati o'tgan yoki buzilgan token — kirmagan deb hisoblanadi.
     return null;
   }
+
+  // Token imzosi to'g'ri bo'lishi yetarli emas: admin o'chirilgan yoki paroli
+  // shu tokendan keyin almashtirilgan bo'lsa, sessiya yaroqsiz.
+  if (process.env.DATABASE_URL) {
+    const { db, schema } = await import("@/db");
+    const admin = await db.query.adminUsers.findFirst({
+      where: eq(schema.adminUsers.id, id),
+      columns: { passwordChangedAt: true },
+    });
+    if (!admin) return null;
+    // `iat` soniyalarda; bir xil soniyada berilgan yangi token o'tadi.
+    if (issuedAt < Math.floor(admin.passwordChangedAt.getTime() / 1000)) return null;
+  }
+
+  return { id, email };
 }
 
 export async function destroySession() {

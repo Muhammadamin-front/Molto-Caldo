@@ -10,6 +10,7 @@ import {
 } from "@/lib/admin";
 import { formatPrice } from "@/lib/utils";
 import { changeStatus, logout } from "@/app/admin/actions";
+import { AdminPasswordForm } from "@/components/admin-password-form";
 
 /**
  * Buyurtmalar ro'yxati sessiyaga bog'liq — bu sahifa hech qachon oldindan (build vaqtida)
@@ -55,6 +56,10 @@ export default async function AdminOrdersPage() {
           </form>
         </div>
       </header>
+
+      <div className="mt-6">
+        <AdminPasswordForm />
+      </div>
 
       {!ready.database && (
         <p className="mt-8 rounded-lg border border-[var(--line-strong)] bg-[var(--surface-2)] px-4 py-3.5 text-sm leading-relaxed text-[var(--ink-soft)]">
