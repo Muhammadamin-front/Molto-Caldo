@@ -1,14 +1,10 @@
 {
   "meta": {
     "title": "Molto Caldo — тёплая верхняя одежда",
-    "description": "Верхняя одежда в итальянском духе: пальто, куртки и шерстяной трикотаж. Доставка по всему Узбекистану.",
-    "catalogTitle": "Каталог — Molto Caldo",
-    "cartTitle": "Корзина — Molto Caldo",
-    "checkoutTitle": "Оформление заказа — Molto Caldo"
+    "description": "Верхняя одежда в итальянском духе: пальто, куртки и шерстяной трикотаж. Доставка по всему Узбекистану."
   },
   "nav": {
     "catalog": "Каталог",
-    "about": "О бренде",
     "delivery": "Доставка",
     "contact": "Контакты",
     "cart": "Корзина",
@@ -59,10 +55,8 @@
     "added": "Добавлено в корзину",
     "outOfStock": "Нет в наличии",
     "selectSize": "Выберите размер",
-    "selectColor": "Выберите цвет",
     "material": "Материал и уход",
     "description": "Описание",
-    "inStock": "В наличии",
     "lowStock": "Осталось {count} шт.",
     "related": "Похожие модели",
     "imageAlt": "Фото {index}"
@@ -71,7 +65,6 @@
     "title": "Корзина",
     "empty": "Ваша корзина пуста.",
     "emptyAction": "Перейти в каталог",
-    "item": "Товар",
     "quantity": "Кол-во",
     "price": "Цена",
     "remove": "Удалить",
@@ -119,15 +112,11 @@
     "contacts": "Контакты",
     "rights": "Все права защищены",
     "sizeGuide": "Таблица размеров",
-    "returns": "Возврат и обмен",
     "payment": "Способы оплаты",
     "admin": "Панель управления"
   },
   "common": {
-    "currency": "сум",
-    "from": "от",
-    "loading": "Загрузка...",
-    "back": "Назад"
+    "currency": "сум"
   },
   "lookbook": {
     "label": "Лукбук",
@@ -142,7 +131,8 @@
     "orbitFlat": "Плоско",
     "orbitTilt": "Наклон",
     "orbitRing": "Кольцо",
-    "orbitGallery": "Галерея"
+    "orbitGallery": "Галерея",
+    "slide": "Перейти к слайду %d"
   },
   "atelier": {
     "eyebrow": "Ателье",

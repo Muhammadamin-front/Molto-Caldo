@@ -25,14 +25,14 @@ export async function SiteFooter() {
           <p id="f-shop" className="text-sm font-semibold">
             {t("shop")}
           </p>
-          <ul className="mt-4 space-y-2.5 text-sm text-[var(--ink-soft)]">
+          <ul className="mt-3 space-y-1 text-sm text-[var(--ink-soft)]">
             <li>
-              <Link href="/catalog" className="hover:text-[var(--ink)]">
+              <Link href="/catalog" className="inline-block py-1 hover:text-[var(--ink)]">
                 {tn("catalog")}
               </Link>
             </li>
             <li>
-              <Link href="/cart" className="hover:text-[var(--ink)]">
+              <Link href="/cart" className="inline-block py-1 hover:text-[var(--ink)]">
                 {tn("cart")}
               </Link>
             </li>
@@ -43,19 +43,19 @@ export async function SiteFooter() {
           <p id="f-info" className="text-sm font-semibold">
             {t("info")}
           </p>
-          <ul className="mt-4 space-y-2.5 text-sm text-[var(--ink-soft)]">
+          <ul className="mt-3 space-y-1 text-sm text-[var(--ink-soft)]">
             <li>
-              <Link href="/lookbook" className="hover:text-[var(--ink)]">
+              <Link href="/lookbook" className="inline-block py-1 hover:text-[var(--ink)]">
                 {tn("lookbook")}
               </Link>
             </li>
             <li>
-              <Link href="/delivery" className="hover:text-[var(--ink)]">
+              <Link href="/delivery" className="inline-block py-1 hover:text-[var(--ink)]">
                 {tn("delivery")}
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-[var(--ink)]">
+              <Link href="/contact" className="inline-block py-1 hover:text-[var(--ink)]">
                 {tn("contact")}
               </Link>
             </li>
@@ -64,9 +64,9 @@ export async function SiteFooter() {
 
         <div>
           <p className="text-sm font-semibold">{t("contacts")}</p>
-          <ul className="mt-4 space-y-2.5 text-sm text-[var(--ink-soft)]">
+          <ul className="mt-3 space-y-1 text-sm text-[var(--ink-soft)]">
             <li>
-              <a href={CONTACT.phoneHref} className="hover:text-[var(--ink)]">
+              <a href={CONTACT.phoneHref} className="inline-block py-1 hover:text-[var(--ink)]">
                 {CONTACT.phone}
               </a>
             </li>
@@ -75,7 +75,7 @@ export async function SiteFooter() {
                 href={CONTACT.telegramHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[var(--ink)]"
+                className="inline-block py-1 hover:text-[var(--ink)]"
               >
                 {CONTACT.telegram}
               </a>
@@ -83,7 +83,7 @@ export async function SiteFooter() {
             <li>
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="hover:text-[var(--ink)]"
+                className="inline-block py-1 hover:text-[var(--ink)]"
               >
                 {CONTACT.email}
               </a>

@@ -35,6 +35,8 @@ export interface CarouselItem {
 export interface CoverFlowCarouselProps {
   items?: CarouselItem[];
   sectionLabel?: string;
+  /** Nuqtalar uchun: "%d" o'rniga slayd raqami qo'yiladi. */
+  slideLabel?: string;
   autoplay?: boolean;
   autoplayDelay?: number;
   className?: string;
@@ -74,6 +76,7 @@ export const defaultDishes: CarouselItem[] = [
 export function CoverFlowCarousel({
   items = defaultDishes,
   sectionLabel = "MOLTO CALDO",
+  slideLabel,
   autoplay = true,
   autoplayDelay = 5000,
   className = "",
@@ -472,18 +475,32 @@ export function CoverFlowCarousel({
             <button
               key={idx}
               onClick={() => goToSlide(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
+              aria-label={(slideLabel ?? "Go to slide %d").replace("%d", String(idx + 1))}
+              aria-current={idx === currentIndex ? "true" : undefined}
               style={{
-                height: "8px",
-                width: idx === currentIndex ? "28px" : "8px",
-                borderRadius: "9999px",
-                backgroundColor: idx === currentIndex ? "#e63946" : "rgba(255,255,255,0.25)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "24px",
+                width: idx === currentIndex ? "36px" : "24px",
+                padding: 0,
+                background: "none",
                 border: "none",
                 cursor: "pointer",
-                boxShadow: idx === currentIndex ? "0 0 10px rgba(230,57,70,0.7)" : "none",
-                transition: "all 300ms ease",
               }}
-            />
+            >
+              <span
+                style={{
+                  display: "block",
+                  height: "8px",
+                  width: idx === currentIndex ? "28px" : "8px",
+                  borderRadius: "9999px",
+                  backgroundColor: idx === currentIndex ? "#e63946" : "rgba(255,255,255,0.25)",
+                  boxShadow: idx === currentIndex ? "0 0 10px rgba(230,57,70,0.7)" : "none",
+                  transition: "all 300ms ease",
+                }}
+              />
+            </button>
           ))}
         </div>
       </div>

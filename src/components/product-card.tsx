@@ -12,6 +12,7 @@ export function ProductCard({
 }: {
   product: Product;
   locale: Locale;
+  /** Birinchi ekranda turadimi — rasm kechiktirilmasdan yuklanadi. */
   priority?: boolean;
 }) {
   const t = useTranslations("product");
@@ -30,7 +31,7 @@ export function ProductCard({
           alt={product.name}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          priority={priority}
+          loading={priority ? "eager" : undefined}
           className="object-cover transition-transform duration-700 group-hover:scale-105"
           style={{ transitionTimingFunction: "var(--ease)" }}
         />

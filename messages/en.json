@@ -1,14 +1,10 @@
 {
   "meta": {
     "title": "Molto Caldo — warm outerwear",
-    "description": "Italian-spirited outerwear: coats, jackets and wool knitwear. Delivery across Uzbekistan.",
-    "catalogTitle": "Catalog — Molto Caldo",
-    "cartTitle": "Cart — Molto Caldo",
-    "checkoutTitle": "Checkout — Molto Caldo"
+    "description": "Italian-spirited outerwear: coats, jackets and wool knitwear. Delivery across Uzbekistan."
   },
   "nav": {
     "catalog": "Catalog",
-    "about": "About",
     "delivery": "Delivery",
     "contact": "Contact",
     "cart": "Cart",
@@ -59,10 +55,8 @@
     "added": "Added to cart",
     "outOfStock": "Out of stock",
     "selectSize": "Select a size",
-    "selectColor": "Select a colour",
     "material": "Material and care",
     "description": "Description",
-    "inStock": "In stock",
     "lowStock": "Only {count} left",
     "related": "You may also like",
     "imageAlt": "Photo {index}"
@@ -71,7 +65,6 @@
     "title": "Cart",
     "empty": "Your cart is empty.",
     "emptyAction": "Go to catalog",
-    "item": "Product",
     "quantity": "Qty",
     "price": "Price",
     "remove": "Remove",
@@ -119,15 +112,11 @@
     "contacts": "Contact",
     "rights": "All rights reserved",
     "sizeGuide": "Size guide",
-    "returns": "Returns and exchange",
     "payment": "Payment methods",
     "admin": "Admin panel"
   },
   "common": {
-    "currency": "UZS",
-    "from": "from",
-    "loading": "Loading...",
-    "back": "Back"
+    "currency": "UZS"
   },
   "lookbook": {
     "label": "Lookbook",
@@ -142,7 +131,8 @@
     "orbitFlat": "Flat",
     "orbitTilt": "Tilt",
     "orbitRing": "Ring",
-    "orbitGallery": "Gallery"
+    "orbitGallery": "Gallery",
+    "slide": "Go to slide %d"
   },
   "atelier": {
     "eyebrow": "Atelier",

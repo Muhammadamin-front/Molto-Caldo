@@ -84,7 +84,11 @@ export default async function HomePage({
             {tl("lead")}
           </p>
         </div>
-        <LookbookCarousel items={lookbookItems} sectionLabel="" />
+        <LookbookCarousel
+          items={lookbookItems}
+          sectionLabel=""
+          slideLabel={tl("slide")}
+        />
       </section>
 
       {/* -------------------------------------------------------- featured */}
@@ -100,7 +104,7 @@ export default async function HomePage({
           </div>
           <Link
             href="/catalog"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] hover:gap-2.5"
+            className="-my-2 inline-flex items-center gap-1.5 py-2 text-sm font-semibold text-[var(--accent)] hover:gap-2.5"
             style={{ transition: "gap .3s var(--ease)" }}
           >
             {t("viewAll")} <ArrowRight size={15} />

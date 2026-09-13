@@ -77,7 +77,7 @@ export function ProductDetail({
             src={images[imageIndex] ?? "/products/placeholder.jpg"}
             alt={product.name}
             fill
-            priority
+            preload
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
           />

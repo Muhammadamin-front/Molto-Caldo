@@ -126,6 +126,8 @@ export default async function CatalogPage({
           className="mt-9 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4"
           data-stagger
         >
+          {/* Ekran o'quvchisi uchun: h1 dan keyin kartochkalardagi h3 kelmasin. */}
+          <h2 className="sr-only">{t("results", { count: products.length })}</h2>
           {products.map((p, i) => (
             <ProductCard
               key={p.id}

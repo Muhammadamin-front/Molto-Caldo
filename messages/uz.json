@@ -1,14 +1,10 @@
 {
   "meta": {
     "title": "Molto Caldo — issiq ustki kiyim",
-    "description": "Italyan ruhidagi ustki kiyim: palto, kurtka va jun trikotaj. O'zbekiston bo'ylab yetkazib berish.",
-    "catalogTitle": "Katalog — Molto Caldo",
-    "cartTitle": "Savat — Molto Caldo",
-    "checkoutTitle": "Buyurtma rasmiylashtirish — Molto Caldo"
+    "description": "Italyan ruhidagi ustki kiyim: palto, kurtka va jun trikotaj. O'zbekiston bo'ylab yetkazib berish."
   },
   "nav": {
     "catalog": "Katalog",
-    "about": "Brend haqida",
     "delivery": "Yetkazib berish",
     "contact": "Aloqa",
     "cart": "Savat",
@@ -59,10 +55,8 @@
     "added": "Savatga qo'shildi",
     "outOfStock": "Tugagan",
     "selectSize": "O'lchamni tanlang",
-    "selectColor": "Rangni tanlang",
     "material": "Material va parvarish",
     "description": "Tavsif",
-    "inStock": "Sotuvda bor",
     "lowStock": "Oxirgi {count} ta qoldi",
     "related": "O'xshash modellar",
     "imageAlt": "{index}-surat"
@@ -71,7 +65,6 @@
     "title": "Savat",
     "empty": "Savatingiz bo'sh.",
     "emptyAction": "Katalogga o'tish",
-    "item": "Mahsulot",
     "quantity": "Soni",
     "price": "Narx",
     "remove": "O'chirish",
@@ -119,15 +112,11 @@
     "contacts": "Aloqa",
     "rights": "Barcha huquqlar himoyalangan",
     "sizeGuide": "O'lchamlar jadvali",
-    "returns": "Qaytarish va almashtirish",
     "payment": "To'lov usullari",
     "admin": "Boshqaruv paneli"
   },
   "common": {
-    "currency": "so'm",
-    "from": "dan",
-    "loading": "Yuklanmoqda...",
-    "back": "Orqaga"
+    "currency": "so'm"
   },
   "lookbook": {
     "label": "Lookbook",
@@ -142,7 +131,8 @@
     "orbitFlat": "Tekis",
     "orbitTilt": "Egilgan",
     "orbitRing": "Halqa",
-    "orbitGallery": "Galereya"
+    "orbitGallery": "Galereya",
+    "slide": "%d-slaydga o'tish"
   },
   "atelier": {
     "eyebrow": "Atelye",

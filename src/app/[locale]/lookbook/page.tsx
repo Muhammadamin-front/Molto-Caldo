@@ -111,6 +111,8 @@ export default async function LookbookPage({
       )}
 
       <div className="mc-container py-12 lg:py-16">
+        {/* Papkalar ichida h3 bor — h1 dan keyin darajani o'tkazib yubormaslik uchun. */}
+        <h2 className="sr-only">{t("pageTitle")}</h2>
         <Collections
           groups={groups}
           countLabel={t("pieces")}

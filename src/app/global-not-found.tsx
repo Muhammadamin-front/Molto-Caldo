@@ -29,6 +29,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Sahifa topilmadi — Molto Caldo",
+  description:
+    "Bunday manzil yo'q. Molto Caldo katalogidan palto, kurtka va trikotaj tanlashingiz mumkin.",
 };
 
 export default function GlobalNotFound() {

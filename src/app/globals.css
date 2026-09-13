@@ -16,7 +16,7 @@
   --color-paper-2: #f4f4f5;
   --color-ink: #121212;
   --color-ink-soft: #5b5b5f;
-  --color-ink-mute: #8d8d93;
+  --color-ink-mute: #6e6e76;
   --color-red: #d21f30;
   --color-red-soft: #e63946;
   --color-red-deep: #9e1524;
@@ -52,7 +52,7 @@
   --surface-2: #f7f7f8;
   --ink: #121212;
   --ink-soft: #5b5b5f;
-  --ink-mute: #8d8d93;
+  --ink-mute: #6e6e76;
   --line: rgba(18, 18, 18, 0.12);
   --line-strong: rgba(18, 18, 18, 0.22);
   --accent: #d21f30;
@@ -71,7 +71,7 @@
   --surface-2: #1b1b1e;
   --ink: #f6f6f7;
   --ink-soft: #aeaeb4;
-  --ink-mute: #7c7c83;
+  --ink-mute: #84848d;
   --line: rgba(246, 246, 247, 0.11);
   --line-strong: rgba(246, 246, 247, 0.22);
   --accent: #ff3b4a;
@@ -97,6 +97,14 @@ body {
 ::selection {
   background: var(--accent);
   color: var(--accent-ink);
+}
+
+/* Klaviatura bilan yurgan odam qayerda turganini ko'rishi kerak. Brauzerning
+   standart ko'k halqasi qizil-oq palitraga yopishmaydi va qorong'i fonda
+   deyarli ko'rinmaydi. Sichqoncha bilan bosganda chiqmaydi (`focus-visible`). */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* --------------------------------------------------------------- motion

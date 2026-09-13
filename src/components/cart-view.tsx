@@ -40,7 +40,7 @@ export function CartView() {
       )}
 
       <ul className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
-        {lines.map((line) => (
+        {lines.map((line, index) => (
           <li key={line.variantId} className="flex gap-4 py-5">
             <div className="relative size-24 shrink-0 overflow-hidden rounded-lg bg-[var(--surface-2)] sm:size-28">
               {line.image && (
@@ -49,6 +49,7 @@ export function CartView() {
                   alt={line.name}
                   fill
                   sizes="112px"
+                  loading={index === 0 ? "eager" : undefined}
                   className="object-cover"
                 />
               )}
@@ -59,7 +60,7 @@ export function CartView() {
                 <div className="min-w-0">
                   <Link
                     href={`/product/${line.productSlug}`}
-                    className="font-display text-[15px] font-medium hover:text-[var(--accent)]"
+                    className="-my-1 inline-block py-1 font-display text-[15px] font-medium hover:text-[var(--accent)]"
                   >
                     {line.name}
                   </Link>
@@ -76,7 +77,7 @@ export function CartView() {
                   type="button"
                   onClick={() => remove(line.variantId)}
                   aria-label={t("remove")}
-                  className="shrink-0 p-1 text-[var(--ink-mute)] transition-colors hover:text-[var(--accent)]"
+                  className="-m-1 shrink-0 rounded-full p-2 text-[var(--ink-mute)] transition-colors hover:text-[var(--accent)]"
                 >
                   <Trash2 size={16} />
                 </button>
@@ -155,7 +156,7 @@ export function CartView() {
 
         <Link
           href="/catalog"
-          className="mt-3 block text-center text-sm text-[var(--ink-soft)] hover:text-[var(--ink)]"
+          className="mt-2 block py-2 text-center text-sm text-[var(--ink-soft)] hover:text-[var(--ink)]"
         >
           {t("continue")}
         </Link>

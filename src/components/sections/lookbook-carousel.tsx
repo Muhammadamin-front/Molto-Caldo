@@ -6,9 +6,11 @@ import { CoverFlowCarousel, type CarouselItem } from "@/components/ui/3-d-coverf
 export function LookbookCarousel({
   items,
   sectionLabel,
+  slideLabel,
 }: {
   items: CarouselItem[];
   sectionLabel: string;
+  slideLabel: string;
 }) {
   const router = useRouter();
 
@@ -16,6 +18,7 @@ export function LookbookCarousel({
     <CoverFlowCarousel
       items={items}
       sectionLabel={sectionLabel}
+      slideLabel={slideLabel}
       autoplay
       autoplayDelay={5200}
       onCtaClick={(item) => {
