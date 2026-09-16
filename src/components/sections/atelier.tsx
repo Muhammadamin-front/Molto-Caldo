@@ -16,7 +16,7 @@ export function Atelier() {
 
   return (
     <section className="relative isolate overflow-hidden bg-[#0d0d0e] py-20 text-[#f6f6f7] reveal-section">
-      <KineticGrid className="absolute inset-0 -z-10 opacity-70" />
+      <KineticGrid className="absolute inset-0 -z-10 min-h-0 opacity-70" />
 
       <div className="mc-container text-center">
         <p className="text-xs font-medium tracking-[0.28em] text-[#ff3b4a] uppercase">

@@ -55,6 +55,7 @@ export interface AntiMetalButtonProps
   accentFrom?: string;
   accentTo?: string;
   dotColor?: string;
+  expanded?: boolean;
 }
 
 export const AntiMetalButton = React.forwardRef<
@@ -69,6 +70,7 @@ export const AntiMetalButton = React.forwardRef<
       accentFrom = "#d6f54a",
       accentTo = "#c5ea2c",
       dotColor = "#0f0f0f",
+      expanded = false,
       ...props
     },
     ref,
@@ -107,7 +109,10 @@ export const AntiMetalButton = React.forwardRef<
 
         <span
           aria-hidden="true"
-          className="absolute bottom-1 left-1 top-1 z-10 flex w-9 items-center justify-start gap-2.5 overflow-hidden rounded-md pl-3 pr-2.5 transition-[width,gap] duration-200 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover/btn:w-[calc(100%-0.5rem)]"
+          className={cn(
+            "absolute bottom-1 left-1 top-1 z-10 flex w-9 items-center justify-start gap-2.5 overflow-hidden rounded-md pl-3 pr-2.5 transition-[width,gap] duration-200 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover/btn:w-[calc(100%-0.5rem)]",
+            expanded && "w-[calc(100%-0.5rem)]",
+          )}
           style={{
             background: `linear-gradient(180deg, ${accentFrom} 0%, ${accentTo} 100%)`,
             boxShadow:

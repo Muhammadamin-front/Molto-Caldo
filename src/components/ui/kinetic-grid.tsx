@@ -306,8 +306,7 @@ export default function KineticGrid({
     };
 
     const setSize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const { width, height } = canvas.getBoundingClientRect();
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(width * pixelRatio);
       canvas.height = Math.round(height * pixelRatio);
@@ -316,12 +315,26 @@ export default function KineticGrid({
     };
 
     const onMouseMove = (event: MouseEvent) => {
-      targetMouseRef.current = { x: event.clientX, y: event.clientY };
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const isInside =
+        x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
+
+      targetMouseRef.current = isInside
+        ? { x, y }
+        : { x: -9999, y: -9999 };
     };
     const onClick = (event: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+
       ripplesRef.current.push({
-        x: event.clientX,
-        y: event.clientY,
+        x,
+        y,
         radius: 0,
         opacity: 1,
         born: performance.now(),
@@ -329,6 +342,8 @@ export default function KineticGrid({
     };
 
     setSize();
+    const resizeObserver = new ResizeObserver(setSize);
+    resizeObserver.observe(canvas);
     window.addEventListener("resize", setSize);
 
     const reducedMotion = window.matchMedia(
@@ -343,6 +358,7 @@ export default function KineticGrid({
     }
 
     return () => {
+      resizeObserver.disconnect();
       window.removeEventListener("resize", setSize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("click", onClick);

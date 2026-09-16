@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { SonarGrid } from "@/components/ui/sonar-grid";
 import { TextRoll } from "@/components/ui/text-roll";
@@ -23,6 +24,35 @@ const HERO_IMAGES = [
  */
 export function Hero() {
   const t = useTranslations("home");
+  const router = useRouter();
+  const [shopButtonExpanded, setShopButtonExpanded] = useState(false);
+  const navigationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (navigationTimerRef.current) {
+        clearTimeout(navigationTimerRef.current);
+      }
+    };
+  }, []);
+
+  const openCatalog = () => {
+    const isTouchDevice = window.matchMedia(
+      "(hover: none), (pointer: coarse)",
+    ).matches;
+
+    if (!isTouchDevice) {
+      router.push("/catalog");
+      return;
+    }
+
+    if (shopButtonExpanded) return;
+
+    setShopButtonExpanded(true);
+    navigationTimerRef.current = setTimeout(() => {
+      router.push("/catalog");
+    }, 260);
+  };
 
   return (
     <section>
@@ -75,15 +105,16 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-5">
-            <Link href="/catalog" aria-label={t("shopNow")}>
-              <AntiMetalButton
-                label={t("shopNow")}
-                accentFrom="#e63946"
-                accentTo="#c01527"
-                dotColor="#ffffff"
-                className="h-12 w-56"
-              />
-            </Link>
+            <AntiMetalButton
+              label={t("shopNow")}
+              aria-label={t("shopNow")}
+              accentFrom="#e63946"
+              accentTo="#c01527"
+              dotColor="#ffffff"
+              expanded={shopButtonExpanded}
+              onClick={openCatalog}
+              className="h-12 w-56"
+            />
 
             <Link
               href="/lookbook"
