@@ -11,7 +11,9 @@
     "search": "Search",
     "menu": "Menu",
     "theme": "Toggle theme",
-    "lookbook": "Collections"
+    "lookbook": "Collections",
+    "login": "Login",
+    "signUp": "Sign Up"
   },
   "home": {
     "eyebrow": "Autumn–Winter collection",

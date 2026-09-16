@@ -11,7 +11,9 @@
     "search": "Qidirish",
     "menu": "Menyu",
     "theme": "Mavzuni almashtirish",
-    "lookbook": "Kolleksiyalar"
+    "lookbook": "Kolleksiyalar",
+    "login": "Kirish",
+    "signUp": "Ro'yxatdan o'tish"
   },
   "home": {
     "eyebrow": "Kuz–Qish kolleksiyasi",

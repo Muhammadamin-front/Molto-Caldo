@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -68,6 +69,22 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <div className="hidden items-center gap-2 lg:flex">
+            <NextLink
+              href="/admin/login"
+              className="rounded-full border border-[var(--line-strong)] px-4 py-2 text-sm font-semibold text-[var(--ink)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            >
+              {t("login")}
+            </NextLink>
+            <Link
+              href="/contact"
+              className="rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--accent-ink)] transition-transform duration-300 hover:-translate-y-0.5"
+              style={{ transitionTimingFunction: "var(--ease)" }}
+            >
+              {t("signUp")}
+            </Link>
+          </div>
+
           <div className="hidden sm:block">
             <LocaleSwitcher />
           </div>
@@ -113,6 +130,22 @@ export function SiteHeader() {
             ))}
             <div className="py-4 sm:hidden">
               <LocaleSwitcher />
+            </div>
+            <div className="grid grid-cols-2 gap-2 border-t border-[var(--line)] py-4">
+              <NextLink
+                href="/admin/login"
+                onClick={() => setOpen(false)}
+                className="rounded-full border border-[var(--line-strong)] px-4 py-3 text-center text-sm font-semibold text-[var(--ink)]"
+              >
+                {t("login")}
+              </NextLink>
+              <Link
+                href="/contact"
+                onClick={() => setOpen(false)}
+                className="rounded-full bg-[var(--accent)] px-4 py-3 text-center text-sm font-semibold text-[var(--accent-ink)]"
+              >
+                {t("signUp")}
+              </Link>
             </div>
           </nav>
         </div>
